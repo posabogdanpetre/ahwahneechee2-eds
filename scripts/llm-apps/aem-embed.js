@@ -1,5 +1,6 @@
- /*
- * AEM Embed WebComponent — powered by LLMApps SDK
+/* eslint-disable no-underscore-dangle */
+/*
+* AEM Embed WebComponent — powered by LLMApps SDK
  *
  * Loads AEM EDS content into any MCP Apps host (ChatGPT, Claude, etc.)
  * and passes an MCPBridge instance to each block for tool data and interaction.

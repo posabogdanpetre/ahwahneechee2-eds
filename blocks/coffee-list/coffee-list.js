@@ -5,7 +5,7 @@
  *   bridge.toolResult → Promise<{ structuredContent: { coffees: Coffee[] } }>
  */
 
-function renderCard(coffee) {
+function renderCard(coffee, bridge) {
   const li = document.createElement('li');
   li.className = 'coffee-list-card';
   li.innerHTML = `
@@ -24,19 +24,14 @@ function renderCard(coffee) {
   `;
 
   li.querySelector('.coffee-list-card-btn').addEventListener('click', (e) => {
-    const name = e.currentTarget.dataset.name;
-    if (window.__llmBridge) {
-      window.__llmBridge.sendMessage(`Tell me more about ${name}`);
-    }
+    const { name } = e.currentTarget.dataset;
+    bridge.sendMessage(`Tell me more about ${name}`);
   });
 
   return li;
 }
 
 export default async function decorate(block, bridge) {
-  // Store bridge reference for button click handlers
-  window.__llmBridge = bridge;
-
   block.innerHTML = '<div class="coffee-list-loading">Loading coffee catalog…</div>';
 
   try {
@@ -45,11 +40,11 @@ export default async function decorate(block, bridge) {
 
     const ul = document.createElement('ul');
     ul.className = 'coffee-list-grid';
-    coffees.forEach((coffee) => ul.append(renderCard(coffee)));
+    coffees.forEach((coffee) => ul.append(renderCard(coffee, bridge)));
 
     block.replaceChildren(ul);
   } catch (err) {
-    block.innerHTML = `<p class="coffee-list-error">Could not load the coffee catalog.</p>`;
+    block.innerHTML = '<p class="coffee-list-error">Could not load the coffee catalog.</p>';
     // eslint-disable-next-line no-console
     console.error('[coffee-list]', err);
   }
