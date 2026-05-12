@@ -1,0 +1,88 @@
+.coffee-list-loading,
+.coffee-list-error {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-color, #333);
+}
+
+.coffee-list-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.coffee-list-card {
+  border: 1px solid #dadada;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--background-color, #fff);
+  display: flex;
+  flex-direction: column;
+}
+
+.coffee-list-card-image img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.coffee-list-card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 8px;
+}
+
+.coffee-list-card-category {
+  margin: 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--secondary-color, #888);
+}
+
+.coffee-list-card-name {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.coffee-list-card-description {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-color, #444);
+  flex: 1;
+}
+
+.coffee-list-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.coffee-list-card-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--link-color, #333);
+}
+
+.coffee-list-card-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--link-color, #333);
+  color: #fff;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.coffee-list-card-btn:hover {
+  opacity: 0.85;
+}
