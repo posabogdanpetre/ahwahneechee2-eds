@@ -13,7 +13,7 @@
  *   - bridge.requestDisplayMode(mode)→ request inline/fullscreen/pip
  *   - bridge.hostContext             → theme, locale, displayMode, styles, ...
  *   - bridge.hostCapabilities        → openLinks, serverTools, logging, ...
- *   - bridge.isEmbedded              → true if inside a host iframe
+ *   - bridge.isEmbedded              → true if inside a host iframe.
  */
 
 import { LLMApp } from './llmapps-sdk.js';
