@@ -8,8 +8,7 @@
 /* ── Carousel wrapper ─────────────────────────────── */
 
 .coffee-list-carousel {
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none; /* Firefox */
   padding: 8px 0 16px;
