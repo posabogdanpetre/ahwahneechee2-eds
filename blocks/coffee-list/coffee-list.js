@@ -9,17 +9,12 @@ function renderCard(coffee, bridge) {
   const li = document.createElement('li');
   li.className = 'coffee-list-card';
   li.innerHTML = `
-    <div class="coffee-list-card-image">
-      <img src="${coffee.imageUrl}" alt="${coffee.name}" loading="lazy" />
-    </div>
-    <div class="coffee-list-card-body">
-      <p class="coffee-list-card-category">${coffee.category}</p>
-      <h3 class="coffee-list-card-name">${coffee.name}</h3>
-      <p class="coffee-list-card-description">${coffee.shortDescription}</p>
-      <div class="coffee-list-card-footer">
-        <span class="coffee-list-card-price">${coffee.price}</span>
-        <button class="coffee-list-card-btn" data-name="${coffee.name}">Tell me more</button>
-      </div>
+    <p class="coffee-list-card-category">${coffee.category}</p>
+    <h3 class="coffee-list-card-name">${coffee.name}</h3>
+    <p class="coffee-list-card-description">${coffee.shortDescription}</p>
+    <div class="coffee-list-card-footer">
+      <span class="coffee-list-card-price">${coffee.price}</span>
+      <button class="coffee-list-card-btn" data-name="${coffee.name}">Tell me more</button>
     </div>
   `;
 
@@ -38,11 +33,15 @@ export default async function decorate(block, bridge) {
     const { structuredContent } = await bridge.toolResult;
     const coffees = structuredContent?.coffees || [];
 
+    const wrapper = document.createElement('div');
+    wrapper.className = 'coffee-list-carousel';
+
     const ul = document.createElement('ul');
-    ul.className = 'coffee-list-grid';
+    ul.className = 'coffee-list-track';
     coffees.forEach((coffee) => ul.append(renderCard(coffee, bridge)));
 
-    block.replaceChildren(ul);
+    wrapper.append(ul);
+    block.replaceChildren(wrapper);
   } catch (err) {
     block.innerHTML = '<p class="coffee-list-error">Could not load the coffee catalog.</p>';
     // eslint-disable-next-line no-console
