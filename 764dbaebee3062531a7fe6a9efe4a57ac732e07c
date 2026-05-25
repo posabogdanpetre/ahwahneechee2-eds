@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "mode": "full",
+  "commit_sha": "764dbaebee3062531a7fe6a9efe4a57ac732e07c",
+  "author": "bposa@adobe.com",
+  "timestamp": "2026-05-25T15:30:33+03:00",
+  "detection": {
+    "ai_assisted": true,
+    "method": "editor_hook",
+    "tool": "cursor",
+    "model": "",
+    "confidence": 1.0
+  },
+  "stats": {
+    "total_additions": 232,
+    "total_deletions": 0,
+    "ai_additions": 232,
+    "ai_deletions": 0,
+    "human_additions": 0,
+    "human_deletions": 0
+  },
+  "files": {
+    "blocks/coffee-details/coffee-details.css": {
+      "ai_additions": 114,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "1-114",
+      "human_lines": ""
+    },
+    "blocks/coffee-details/coffee-details.js": {
+      "ai_additions": 90,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "1-90",
+      "human_lines": ""
+    },
+    "blocks/coffee-list/coffee-list.css": {
+      "ai_additions": 18,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "79-84,107-118",
+      "human_lines": ""
+    },
+    "blocks/coffee-list/coffee-list.js": {
+      "ai_additions": 10,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "17-20,24-29",
+      "human_lines": ""
+    }
+  }
+}
