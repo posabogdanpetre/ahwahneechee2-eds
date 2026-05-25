@@ -76,6 +76,12 @@
   gap: 8px;
 }
 
+.coffee-list-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .coffee-list-card-price {
   font-size: 1rem;
   font-weight: 700;
@@ -97,4 +103,16 @@
 
 .coffee-list-card-btn:hover {
   opacity: 0.8;
+}
+
+.coffee-list-card-btn--more {
+  background-color: transparent;
+  color: var(--link-color, #333);
+  border: 1px solid var(--link-color, #333);
+}
+
+.coffee-list-card-btn--more:hover {
+  background-color: var(--link-color, #333);
+  color: #fff;
+  opacity: 1;
 }

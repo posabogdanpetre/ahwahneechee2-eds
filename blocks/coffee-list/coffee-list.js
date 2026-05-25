@@ -14,11 +14,19 @@ function renderCard(coffee, bridge) {
     <p class="coffee-list-card-description">${coffee.shortDescription}</p>
     <div class="coffee-list-card-footer">
       <span class="coffee-list-card-price">${coffee.price}</span>
-      <button class="coffee-list-card-btn" data-name="${coffee.name}">Tell me more</button>
+      <div class="coffee-list-card-actions">
+        <button class="coffee-list-card-btn coffee-list-card-btn--details" data-id="${coffee.id}" data-name="${coffee.name}">View Details</button>
+        <button class="coffee-list-card-btn coffee-list-card-btn--more" data-name="${coffee.name}">Tell me more</button>
+      </div>
     </div>
   `;
 
-  li.querySelector('.coffee-list-card-btn').addEventListener('click', (e) => {
+  li.querySelector('.coffee-list-card-btn--details').addEventListener('click', (e) => {
+    const { id } = e.currentTarget.dataset;
+    bridge.sendMessage(`Show me the details for coffee "${id}"`);
+  });
+
+  li.querySelector('.coffee-list-card-btn--more').addEventListener('click', (e) => {
     const { name } = e.currentTarget.dataset;
     bridge.sendMessage(`Tell me more about ${name}`);
   });
