@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Required for correct iframe sizing */
+main > div,
+main > .section,
+main > .section:first-of-type {
+  margin: 0;
+}
+main > .section > div {
+  max-width: none;
+  padding: 0;
+}
+body {
+  overflow: auto;
+}
+
+main .get-current-deals {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 8px;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+main .get-current-deals .deals-carousel-wrapper {
+  position: relative;
+}
+
+main .get-current-deals .deals-carousel {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+main .get-current-deals .deals-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+main .get-current-deals .deal-card {
+  flex: 0 0 220px;
+  height: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+}
+
+main .get-current-deals .deal-card-image {
+  position: relative;
+  flex: 6;
+  width: 100%;
+  overflow: hidden;
+}
+
+main .get-current-deals .deal-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+main .get-current-deals .discount-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #e34850;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+main .get-current-deals .deal-cta {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  z-index: 2;
+}
+
+main .get-current-deals .deal-cta:hover {
+  opacity: 0.9;
+}
+
+main .get-current-deals .deal-cta:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+main .get-current-deals .deal-card-info {
+  flex: 4;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+main .get-current-deals .deal-name {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+main .get-current-deals .deal-price-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+main .get-current-deals .original-price {
+  font-size: 11px;
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+
+main .get-current-deals .sale-price {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+main .get-current-deals .carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background 0.15s;
+  z-index: 3;
+}
+
+main .get-current-deals .carousel-arrow:hover {
+  background: #fff;
+}
+
+main .get-current-deals .carousel-arrow:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+main .get-current-deals .carousel-arrow.left {
+  left: 8px;
+}
+
+main .get-current-deals .carousel-arrow.right {
+  right: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  main .get-current-deals {
+    background: transparent;
+  }
+  main .get-current-deals .carousel-arrow {
+    background: rgba(60, 60, 60, 0.95);
+    color: #fff;
+  }
+  main .get-current-deals .carousel-arrow:hover {
+    background: #3c3c3c;
+  }
+}
+
+body.dark main .get-current-deals {
+  background: transparent;
+}
+
+body.dark main .get-current-deals .carousel-arrow {
+  background: rgba(60, 60, 60, 0.95);
+  color: #fff;
+}
+
+body.dark main .get-current-deals .carousel-arrow:hover {
+  background: #3c3c3c;
+}
