@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Required for correct iframe sizing — AEM section margins inflate shadow body */
+main > div,
+main > .section,
+main > .section:first-of-type {
+  margin: 0;
+}
+main > .section > div {
+  max-width: none;
+  padding: 0;
+}
+body {
+  overflow: auto;
+}
+
+main .search-products {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 8px;
+  max-width: 780px;
+  margin: 0 auto;
+  position: relative;
+}
+
+main .search-products .carousel-wrapper {
+  position: relative;
+}
+
+main .search-products .carousel {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+
+main .search-products .carousel::-webkit-scrollbar {
+  display: none;
+}
+
+main .search-products .product-card {
+  flex: 0 0 220px;
+  height: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+  position: relative;
+}
+
+main .search-products .product-card .image-container {
+  flex: 6;
+  position: relative;
+  overflow: hidden;
+}
+
+main .search-products .product-card .image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+main .search-products .product-card .cta-btn {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 20px;
+  border: none;
+  border-radius: 13px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+main .search-products .product-card .cta-btn:hover {
+  opacity: 0.9;
+}
+
+main .search-products .product-card .cta-btn:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+main .search-products .product-card .content {
+  flex: 4;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+main .search-products .product-card .content .name {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+main .search-products .product-card .content .description {
+  font-size: 11px;
+  line-height: 1.3;
+  margin: 0;
+  opacity: 0.78;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+main .search-products .product-card .content .meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+}
+
+main .search-products .product-card .content .price {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+main .search-products .product-card .content .category {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.08);
+  color: #666;
+  white-space: nowrap;
+}
+
+main .search-products .nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background 0.15s;
+}
+
+main .search-products .nav-btn:hover {
+  background: #fff;
+}
+
+main .search-products .nav-btn:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+main .search-products .nav-btn.hidden {
+  display: none;
+}
+
+main .search-products .nav-btn.left {
+  left: 8px;
+}
+
+main .search-products .nav-btn.right {
+  right: 8px;
+}
+
+main .search-products .fade-gradient {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 60px;
+  pointer-events: none;
+  border-radius: 0 10px 10px 0;
+}
+
+/* Dark mode — dim outer widget background, lighten text accents */
+@media (prefers-color-scheme: dark) {
+  main .search-products {
+    background: #111;
+  }
+  main .search-products .product-card .content .category {
+    background: rgba(96, 165, 250, 0.2);
+    color: #60a5fa;
+  }
+  main .search-products .nav-btn {
+    background: rgba(51, 51, 51, 0.95);
+    color: #fff;
+  }
+  main .search-products .nav-btn:hover {
+    background: #3a3a3a;
+  }
+}
+
+body.dark main .search-products {
+  background: #111;
+}
+
+body.dark main .search-products .product-card .content .category {
+  background: rgba(96, 165, 250, 0.2);
+  color: #60a5fa;
+}
+
+body.dark main .search-products .nav-btn {
+  background: rgba(51, 51, 51, 0.95);
+  color: #fff;
+}
+
+body.dark main .search-products .nav-btn:hover {
+  background: #3a3a3a;
+}
