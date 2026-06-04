@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "mode": "full",
+  "commit_sha": "733ee4cd59540f6eeacf33359f3e8b29889a3baa",
+  "author": "bposa@adobe.com",
+  "timestamp": "2026-06-04T08:34:58+03:00",
+  "detection": {
+    "ai_assisted": false,
+    "method": "none",
+    "tool": "unknown",
+    "model": "",
+    "confidence": 0.0
+  },
+  "stats": {
+    "total_additions": 0,
+    "total_deletions": 1080,
+    "ai_additions": 0,
+    "ai_deletions": 0,
+    "human_additions": 0,
+    "human_deletions": 1080
+  },
+  "files": {
+    "blocks/cultural-story/cultural-story.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 132
+    },
+    "blocks/cultural-story/cultural-story.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 87
+    },
+    "blocks/get-current-deals/get-current-deals.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 202
+    },
+    "blocks/get-current-deals/get-current-deals.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 222
+    },
+    "blocks/place-details/place-details.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 146
+    },
+    "blocks/place-details/place-details.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 93
+    },
+    "blocks/places-list/places-list.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 120
+    },
+    "blocks/places-list/places-list.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 78
+    }
+  }
+}
