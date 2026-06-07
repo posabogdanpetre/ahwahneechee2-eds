@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Required for correct iframe sizing — AEM section margins inflate shadow body */
+main > div,
+main > .section,
+main > .section:first-of-type {
+  margin: 0;
+}
+
+main > .section > div {
+  max-width: none;
+  padding: 0;
+}
+
+body {
+  overflow: auto;
+}
+
+main .get-current-deals {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 8px;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+main .get-current-deals .deals-wrapper {
+  position: relative;
+}
+
+main .get-current-deals .deals-carousel {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 4px;
+}
+
+main .get-current-deals .deals-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+main .get-current-deals .deal-card {
+  flex: 0 0 220px;
+  height: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+}
+
+main .get-current-deals .deal-image {
+  flex: 6;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+}
+
+main .get-current-deals .discount-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #e34850;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+main .get-current-deals .view-deal-btn {
+  position: absolute;
+  bottom: 12px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  z-index: 2;
+}
+
+main .get-current-deals .view-deal-btn:hover {
+  opacity: 0.9;
+}
+
+main .get-current-deals .deal-info {
+  flex: 4;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+main .get-current-deals .deal-name {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+main .get-current-deals .price-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+main .get-current-deals .original-price {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: line-through;
+}
+
+main .get-current-deals .sale-price {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+main .get-current-deals .nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 0.15s;
+}
+
+main .get-current-deals .nav-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+main .get-current-deals .nav-btn:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+main .get-current-deals .nav-left {
+  left: 8px;
+}
+
+main .get-current-deals .nav-right {
+  right: 8px;
+}
+
+main .get-current-deals .fade-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 60px;
+  pointer-events: none;
+  border-radius: 0 10px 10px 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  main .get-current-deals {
+    background: transparent;
+  }
+}
+
+body.dark main .get-current-deals {
+  background: transparent;
+}
