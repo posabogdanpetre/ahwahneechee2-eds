@@ -2,53 +2,31 @@
 // In production, data comes dynamically from bridge.toolResult.
 const SAMPLE_DATA = [
   {
-    name: "Men's Nano Puff Insulated Jacket",
-    description: "Weather-resistant, lightweight and packable synthetic insulation layer that stays warm when wet.",
-    image_url: "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw8079c0d9/images/hi-res/84213_BLSG.jpg",
-    price: "£170",
-    category: "Jackets"
+    "name": "Men's Down Sweater Jacket",
+    "description": "Lightweight, windproof jacket with 800-fill-power recycled down insulation and a recycled nylon ripstop shell.",
+    "image_url": "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw3c83e113/images/hi-res/84675_CLOR.jpg?sw=800&sh=800&sfrm=png&q=95&bgcolor=f3f4ef",
+    "price": "£230",
+    "category": "Insulated Jackets"
   },
   {
-    name: "Men's Torrentshell 3L Rain Jacket",
-    description: "Waterproof and breathable 3-layer rain jacket providing excellent performance and durability.",
-    image_url: "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw3f39aea6/images/hi-res/85241_LMST.jpg",
-    price: "£180",
-    category: "Jackets"
+    "name": "Women's Better Sweater Fleece Jacket",
+    "description": "Warm 100% recycled polyester full-zip fleece jacket with a sweater-knit aesthetic.",
+    "image_url": "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dwb74b05e1/images/hi-res/25543_NENA.jpg?sw=800&sh=800&sfrm=png&q=95&bgcolor=f3f4ef",
+    "price": "£130",
+    "category": "Fleece"
   },
   {
-    name: "Women's Better Sweater Fleece Jacket",
-    description: "Full-zip jacket made of warm, 100% recycled polyester fleece.",
-    image_url: "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dwb74b05e1/images/hi-res/25543_NENA.jpg",
-    price: "£130",
-    category: "Fleece"
-  },
-  {
-    name: "Women's Down Sweater Insulated Jacket",
-    description: "Lightweight, windproof jacket with a recycled nylon shell and 800-fill-power down.",
-    image_url: "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw4729f37a/images/hi-res/84684_BNLB.jpg",
-    price: "£230",
-    category: "Jackets"
-  },
-  {
-    name: "Men's R1 Air Fleece Midlayer Jacket",
-    description: "Lightweight, highly breathable and quick-drying technical fleece jacket for cool conditions.",
-    image_url: "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dwce5a595b/images/hi-res/40275_CLOR.jpg",
-    price: "£130",
-    category: "Fleece"
-  },
-  {
-    name: "Black Hole Pack 32L",
-    description: "Weather-resistant pack perfect for the daily commute and rugged enough to haul around the globe.",
-    image_url: "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dwa49c297f/images/hi-res/49302_SMFO.jpg",
-    price: "£155",
-    category: "Packs & Gear"
+    "name": "Men's Torrentshell 3L Rain Jacket",
+    "description": "Waterproof/breathable 3-layer rain jacket with H2No Performance Standard shell, made without PFAS.",
+    "image_url": "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw3f39aea6/images/hi-res/85241_LMST.jpg?sw=800&sh=800&sfrm=png&q=95&bgcolor=f3f4ef",
+    "price": "£180",
+    "category": "Rain Jackets"
   }
 ];
 
-// Brand palette from BuildWidgetRequest — used to derive card info strip background.
-const PALETTE = ['#1a1a1a', '#2d6ae0'];
+// Brand palette from BuildWidgetRequest
+const PALETTE = ['#1a1a1a', '#2d5f8a'];
 
-// Darken palette[0] to luminance ≤ 0.12 for WCAG AA contrast with white text.
 function getThemedCardBg(palette) {
   if (!palette || !palette[0]) return null;
   let hex = palette[0].replace('#', '');
@@ -65,31 +43,34 @@ function getThemedCardBg(palette) {
     if (relLum(Math.round(r*m),Math.round(g*m),Math.round(b*m)) > 0.12) hi=m; else lo=m;
   }
   const dr=Math.round(r*lo), dg=Math.round(g*lo), db=Math.round(b*lo);
-  return { bg:`#${dr.toString(16).padStart(2,'0')}${dg.toString(16).padStart(2,'0')}${db.toString(16).padStart(2,'0')}`, fg:'#ffffff' };
+  return {
+    bg: `#${dr.toString(16).padStart(2,'0')}${dg.toString(16).padStart(2,'0')}${db.toString(16).padStart(2,'0')}`,
+    fg: '#ffffff'
+  };
 }
 
 const theme = getThemedCardBg(PALETTE);
 
 export default async function decorate(block, bridge) {
-  let items;
+  let products;
 
   if (bridge) {
     bridge.applyHostStyles();
     const isPreview = bridge.hostContext?.preview === true;
     if (isPreview) {
-      items = SAMPLE_DATA;
+      products = SAMPLE_DATA;
     } else {
       const _result = await bridge.toolResult;
       const structuredContent = _result?.structuredContent || _result;
       // structuredContent.products — bare array outputSchema; key derived from actionName "search_products"
-      items = structuredContent?.products || [];
+      products = structuredContent?.products || [];
     }
   } else {
-    items = SAMPLE_DATA;
+    products = SAMPLE_DATA;
   }
 
   block.textContent = '';
-  renderProducts(block, items, bridge);
+  renderProducts(block, products, bridge);
 
   if (bridge) {
     bridge.reportSize(block.offsetWidth, block.offsetHeight);
@@ -103,19 +84,21 @@ export default async function decorate(block, bridge) {
 }
 
 function renderProducts(block, products, bridge) {
+  const CARD_COLORS = ['#378ef0','#9256d9','#0fb5ae','#e68619','#d83790','#2dca72','#4046ca','#72b340'];
+
   const wrapper = document.createElement('div');
-  wrapper.className = 'products-wrapper';
+  wrapper.className = 'carousel-wrapper';
+  wrapper.style.cssText = 'position:relative;';
 
   const carousel = document.createElement('div');
   carousel.className = 'products-carousel';
 
-  const CARD_COLORS = ['#378ef0','#9256d9','#0fb5ae','#e68619','#d83790','#2dca72','#4046ca','#72b340'];
+  const displayProducts = products.slice(0, 5);
 
-  products.forEach((product, i) => {
+  displayProducts.forEach((product, i) => {
     const card = document.createElement('div');
     card.className = 'product-card';
 
-    // Image container with CTA overlay
     const imageContainer = document.createElement('div');
     imageContainer.className = 'product-image';
 
@@ -129,7 +112,7 @@ function renderProducts(block, products, bridge) {
     if (product.image_url) {
       const img = document.createElement('img');
       img.src = product.image_url;
-      img.alt = product.name || '';
+      img.alt = product.name || 'Product image';
       img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
       img.onerror = () => img.parentNode.replaceChild(colorDiv(), img);
       imageContainer.appendChild(img);
@@ -137,10 +120,10 @@ function renderProducts(block, products, bridge) {
       imageContainer.appendChild(colorDiv());
     }
 
-    // CTA button on image
     const ctaBtn = document.createElement('button');
-    ctaBtn.className = 'cta-overlay';
+    ctaBtn.className = 'cta-button';
     ctaBtn.textContent = 'View Details';
+    ctaBtn.setAttribute('aria-label', `View details for ${product.name}`);
     if (bridge) {
       ctaBtn.addEventListener('click', () => {
         bridge.sendMessage(`Tell me more about ${product.name}`);
@@ -150,7 +133,6 @@ function renderProducts(block, products, bridge) {
 
     card.appendChild(imageContainer);
 
-    // Card content section with darkened palette background
     const info = document.createElement('div');
     info.className = 'product-info';
     info.style.cssText = `background:${theme?.bg ?? '#1a1a1a'};color:${theme?.fg ?? '#fff'}`;
@@ -170,12 +152,10 @@ function renderProducts(block, products, bridge) {
     const footer = document.createElement('div');
     footer.className = 'product-footer';
 
-    if (product.price) {
-      const price = document.createElement('span');
-      price.className = 'product-price';
-      price.textContent = product.price;
-      footer.appendChild(price);
-    }
+    const price = document.createElement('span');
+    price.className = 'product-price';
+    price.textContent = product.price || '';
+    footer.appendChild(price);
 
     if (product.category) {
       const badge = document.createElement('span');
@@ -190,57 +170,57 @@ function renderProducts(block, products, bridge) {
     carousel.appendChild(card);
   });
 
+  wrapper.appendChild(carousel);
+
   // Navigation arrows
   const leftArrow = document.createElement('button');
-  leftArrow.className = 'carousel-arrow carousel-arrow-left';
-  leftArrow.setAttribute('aria-label', 'Scroll left');
+  leftArrow.className = 'nav-arrow nav-arrow-left';
   leftArrow.textContent = '◀';
+  leftArrow.setAttribute('aria-label', 'Scroll left');
   leftArrow.style.display = 'none';
-
-  const rightArrow = document.createElement('button');
-  rightArrow.className = 'carousel-arrow carousel-arrow-right';
-  rightArrow.setAttribute('aria-label', 'Scroll right');
-  rightArrow.textContent = '▶';
-
-  const updateArrows = () => {
-    const scrollLeft = carousel.scrollLeft;
-    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-    leftArrow.style.display = scrollLeft <= 1 ? 'none' : 'flex';
-    rightArrow.style.display = scrollLeft >= maxScroll - 1 ? 'none' : 'flex';
-  };
-
-  const scrollBy = (direction) => {
-    const cardWidth = 220 + 16; // card width + gap
-    carousel.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
-  };
-
-  leftArrow.addEventListener('click', () => scrollBy(-1));
-  rightArrow.addEventListener('click', () => scrollBy(1));
+  leftArrow.addEventListener('click', () => {
+    carousel.scrollBy({ left: -236, behavior: 'smooth' });
+  });
   leftArrow.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      scrollBy(-1);
+      carousel.scrollBy({ left: -236, behavior: 'smooth' });
     }
+  });
+
+  const rightArrow = document.createElement('button');
+  rightArrow.className = 'nav-arrow nav-arrow-right';
+  rightArrow.textContent = '▶';
+  rightArrow.setAttribute('aria-label', 'Scroll right');
+  rightArrow.addEventListener('click', () => {
+    carousel.scrollBy({ left: 236, behavior: 'smooth' });
   });
   rightArrow.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      scrollBy(1);
+      carousel.scrollBy({ left: 236, behavior: 'smooth' });
     }
   });
+
+  const updateArrows = () => {
+    const atStart = carousel.scrollLeft <= 1;
+    const atEnd = carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 1;
+    leftArrow.style.display = atStart ? 'none' : 'flex';
+    rightArrow.style.display = atEnd ? 'none' : 'flex';
+  };
 
   carousel.addEventListener('scroll', updateArrows);
   updateArrows();
 
-  // Right fade gradient
-  const fade = document.createElement('div');
-  fade.className = 'carousel-fade';
-  fade.style.cssText = `position:absolute;top:0;right:0;height:100%;width:60px;background:linear-gradient(to right,transparent,${theme?.bg ?? '#1a1a1a'}cc);pointer-events:none;border-radius:0 10px 10px 0;`;
-
   wrapper.appendChild(leftArrow);
-  wrapper.appendChild(carousel);
   wrapper.appendChild(rightArrow);
-  wrapper.appendChild(fade);
+
+  // Right fade gradient
+  if (displayProducts.length > 1) {
+    const fade = document.createElement('div');
+    fade.style.cssText = `position:absolute;top:0;right:0;height:100%;width:60px;background:linear-gradient(to right,transparent,${theme?.bg ?? '#1a1a1a'}cc);pointer-events:none;border-radius:0 10px 10px 0;`;
+    wrapper.appendChild(fade);
+  }
 
   block.appendChild(wrapper);
 }
