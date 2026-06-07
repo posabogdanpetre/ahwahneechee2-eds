@@ -1,31 +1,18 @@
-// Sample data for standalone EDS preview (no bridge).
+// Sample data for standalone/preview mode.
 // In production, data comes dynamically from bridge.toolResult.
-const SAMPLE_DATA = [
-  {
-    "name": "Men's Nano Puff Insulated Jacket",
-    "description": "Weather-resistant, lightweight and packable synthetic insulation layer that stays warm when wet.",
-    "image_url": "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw8079c0d9/images/hi-res/84213_BLSG.jpg",
-    "price": "£170",
-    "category": "Jackets"
-  },
-  {
-    "name": "Men's Torrentshell 3L Rain Jacket",
-    "description": "Waterproof and breathable 3-layer rain jacket providing excellent performance and durability.",
-    "image_url": "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw3f39aea6/images/hi-res/85241_LMST.jpg",
-    "price": "£180",
-    "category": "Jackets"
-  },
-  {
-    "name": "Women's Better Sweater Fleece Jacket",
-    "description": "Full-zip jacket made of warm, 100% recycled polyester fleece.",
-    "image_url": "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dwb74b05e1/images/hi-res/25543_NENA.jpg",
-    "price": "£130",
-    "category": "Fleece"
-  }
-];
+const SAMPLE_DATA = {
+  name: "Men's Nano Puff Jacket",
+  description: "Lightweight, windproof, and water-resistant insulation for cold conditions. Made with 100% recycled materials.",
+  price: "$249",
+  category: "Insulated Jackets",
+  materials: "100% recycled polyester with PrimaLoft Gold Insulation Eco",
+  features: "Zippered hand pockets, elastic cuffs, drawcord hem, packable design",
+  fit: "Regular",
+  image_url: "https://www.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw123/images/hi-res/84212_SMDB_FR1.jpg"
+};
 
-// Brand palette from BuildWidgetRequest.
-const PALETTE = ['#1a1a1a', '#2d6ae0'];
+// Brand palette from BuildWidgetRequest — used to derive card background.
+const PALETTE = [];
 
 function getThemedCardBg(palette) {
   if (!palette || !palette[0]) return null;
@@ -49,8 +36,6 @@ function getThemedCardBg(palette) {
   };
 }
 
-const theme = getThemedCardBg(PALETTE);
-
 export default async function decorate(block, bridge) {
   let product;
 
@@ -58,14 +43,14 @@ export default async function decorate(block, bridge) {
     bridge.applyHostStyles();
     const isPreview = bridge.hostContext?.preview === true;
     if (isPreview) {
-      product = SAMPLE_DATA[0];
+      product = SAMPLE_DATA;
     } else {
-      const result = await bridge.toolResult;
-      const structuredContent = result?.structuredContent || result;
-      product = structuredContent;
+      const _result = await bridge.toolResult;
+      const structuredContent = _result?.structuredContent || _result;
+      product = structuredContent || {};
     }
   } else {
-    product = SAMPLE_DATA[0];
+    product = SAMPLE_DATA;
   }
 
   block.textContent = '';
@@ -83,96 +68,120 @@ export default async function decorate(block, bridge) {
 }
 
 function renderProduct(block, product, bridge) {
-  if (!product) {
-    block.textContent = 'No product data available.';
-    return;
-  }
+  const theme = getThemedCardBg(PALETTE);
+  const CARD_COLORS = ['#378ef0','#9256d9','#0fb5ae','#e68619','#d83790','#2dca72','#4046ca','#72b340'];
+  const fallbackColor = CARD_COLORS[0];
 
   const card = document.createElement('div');
-  card.className = 'product-detail-card';
+  card.className = 'product-card';
 
-  // Left side: Image with CTA button overlay
-  const imageSection = document.createElement('div');
-  imageSection.className = 'product-image-section';
+  // Image container (left side)
+  const imageContainer = document.createElement('div');
+  imageContainer.className = 'product-image';
+
+  const imageWrapper = document.createElement('div');
+  imageWrapper.className = 'image-wrapper';
+
+  const colorDiv = () => {
+    const d = document.createElement('div');
+    d.style.cssText = `width:100%;height:100%;background-color:${fallbackColor};`;
+    return d;
+  };
 
   if (product.image_url) {
     const img = document.createElement('img');
     img.src = product.image_url;
     img.alt = product.name || 'Product image';
-    img.className = 'product-image';
-
-    const fallbackColor = '#2d6ae0';
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
     img.onerror = () => {
-      const colorDiv = document.createElement('div');
-      colorDiv.className = 'product-image-fallback';
-      colorDiv.style.cssText = `background-color:${fallbackColor};`;
-      img.parentNode.replaceChild(colorDiv, img);
+      if (img.parentNode) img.parentNode.replaceChild(colorDiv(), img);
     };
-
-    imageSection.appendChild(img);
+    imageWrapper.appendChild(img);
   } else {
-    const colorDiv = document.createElement('div');
-    colorDiv.className = 'product-image-fallback';
-    colorDiv.style.cssText = 'background-color:#2d6ae0;';
-    imageSection.appendChild(colorDiv);
+    imageWrapper.appendChild(colorDiv());
   }
+
+  imageContainer.appendChild(imageWrapper);
 
   // CTA button on image
   const ctaBtn = document.createElement('button');
-  ctaBtn.className = 'product-cta';
+  ctaBtn.className = 'cta-btn';
   ctaBtn.textContent = 'Shop Now';
-  ctaBtn.setAttribute('aria-label', `Shop ${product.name || 'product'}`);
-
-  if (bridge && product.url) {
+  ctaBtn.setAttribute('aria-label', `Shop ${product.name || 'this product'}`);
+  if (bridge) {
     ctaBtn.addEventListener('click', () => {
-      bridge.openLink(product.url);
-    });
-  } else if (product.url) {
-    ctaBtn.addEventListener('click', () => {
-      window.open(product.url, '_blank');
-    });
-  } else if (bridge) {
-    ctaBtn.addEventListener('click', () => {
-      bridge.sendMessage(`Tell me more about ${product.name}`);
+      bridge.sendMessage(`I want to shop for ${product.name || 'this product'}`);
     });
   }
+  imageContainer.appendChild(ctaBtn);
 
-  imageSection.appendChild(ctaBtn);
-  card.appendChild(imageSection);
+  card.appendChild(imageContainer);
 
-  // Right side: Product info with darkened palette background
-  const infoSection = document.createElement('div');
-  infoSection.className = 'product-info-section';
-  infoSection.style.cssText = `background:${theme?.bg ?? '#1a1a1a'};color:${theme?.fg ?? '#fff'};`;
+  // Content container (right side)
+  const content = document.createElement('div');
+  content.className = 'product-content';
+  content.style.cssText = `background:${theme?.bg ?? '#1a1a1a'};color:${theme?.fg ?? '#fff'}`;
 
-  // Category badge
-  if (product.category) {
-    const badge = document.createElement('span');
-    badge.className = 'product-category';
-    badge.textContent = product.category;
-    infoSection.appendChild(badge);
-  }
-
-  // Product name
   const name = document.createElement('h2');
   name.className = 'product-name';
   name.textContent = product.name || 'Product';
-  infoSection.appendChild(name);
+  content.appendChild(name);
 
-  // Description
-  const desc = document.createElement('p');
-  desc.className = 'product-description';
-  desc.textContent = product.description || '';
-  infoSection.appendChild(desc);
+  if (product.description) {
+    const desc = document.createElement('p');
+    desc.className = 'product-description';
+    desc.textContent = product.description;
+    content.appendChild(desc);
+  }
 
-  // Price
   if (product.price) {
     const price = document.createElement('div');
     price.className = 'product-price';
     price.textContent = product.price;
-    infoSection.appendChild(price);
+    content.appendChild(price);
   }
 
-  card.appendChild(infoSection);
+  if (product.category) {
+    const category = document.createElement('span');
+    category.className = 'product-category';
+    category.textContent = product.category;
+    content.appendChild(category);
+  }
+
+  // Additional fields for detail view
+  if (product.materials) {
+    const materials = document.createElement('div');
+    materials.className = 'product-detail';
+    const label = document.createElement('strong');
+    label.textContent = 'Materials: ';
+    materials.appendChild(label);
+    const text = document.createTextNode(product.materials);
+    materials.appendChild(text);
+    content.appendChild(materials);
+  }
+
+  if (product.features) {
+    const features = document.createElement('div');
+    features.className = 'product-detail';
+    const label = document.createElement('strong');
+    label.textContent = 'Features: ';
+    features.appendChild(label);
+    const text = document.createTextNode(product.features);
+    features.appendChild(text);
+    content.appendChild(features);
+  }
+
+  if (product.fit) {
+    const fit = document.createElement('div');
+    fit.className = 'product-detail';
+    const label = document.createElement('strong');
+    label.textContent = 'Fit: ';
+    fit.appendChild(label);
+    const text = document.createTextNode(product.fit);
+    fit.appendChild(text);
+    content.appendChild(fit);
+  }
+
+  card.appendChild(content);
   block.appendChild(card);
 }
