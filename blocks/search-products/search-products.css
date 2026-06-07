@@ -1,15 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* Required for correct iframe sizing — AEM section margins inflate shadow body */
 main > div,
 main > .section,
 main > .section:first-of-type {
   margin: 0;
 }
+
 main > .section > div {
   max-width: none;
   padding: 0;
 }
+
 body {
   overflow: auto;
 }
@@ -19,13 +20,14 @@ main .search-products {
   padding: 8px;
   max-width: 780px;
   margin: 0 auto;
-}
-
-main .search-products .products-wrapper {
   position: relative;
 }
 
-main .search-products .products-carousel {
+main .search-products .carousel-wrapper {
+  position: relative;
+}
+
+main .search-products .carousel-scroll {
   display: flex;
   flex-direction: row;
   gap: 16px;
@@ -33,10 +35,10 @@ main .search-products .products-carousel {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: 4px;
+  padding: 0 4px 4px;
 }
 
-main .search-products .products-carousel::-webkit-scrollbar {
+main .search-products .carousel-scroll::-webkit-scrollbar {
   display: none;
 }
 
@@ -48,43 +50,56 @@ main .search-products .product-card {
   display: flex;
   flex-direction: column;
   scroll-snap-align: start;
-  box-sizing: border-box;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.15s, box-shadow 0.15s;
 }
 
-main .search-products .product-image {
-  position: relative;
+main .search-products .product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+main .search-products .card-image {
   flex: 6;
+  position: relative;
+  aspect-ratio: 16/9;
   overflow: hidden;
 }
 
-main .search-products .cta-overlay {
+main .search-products .card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+main .search-products .cta-btn {
   position: absolute;
   bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
-  background: #2d6ae0;
+  padding: 8px 16px;
+  background: #2563eb;
   color: #fff;
   border: none;
-  padding: 8px 20px;
+  border-radius: 13px;
   font-size: 13px;
   font-weight: 600;
-  border-radius: 13px;
   cursor: pointer;
-  transition: opacity 0.2s;
-  font-family: 'Inter', sans-serif;
+  transition: opacity 0.15s;
+  font-family: inherit;
 }
 
-main .search-products .cta-overlay:hover {
+main .search-products .cta-btn:hover {
   opacity: 0.9;
 }
 
-main .search-products .cta-overlay:focus-visible {
-  outline: 2px solid #2d6ae0;
+main .search-products .cta-btn:focus-visible {
+  outline: 2px solid #fff;
   outline-offset: 2px;
 }
 
-main .search-products .product-info {
+main .search-products .card-content {
   flex: 4;
   padding: 10px 14px;
   display: flex;
@@ -96,94 +111,102 @@ main .search-products .product-name {
   font-size: 14px;
   font-weight: 700;
   line-height: 1.2;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-main .search-products .product-description {
-  font-size: 11px;
-  line-height: 1.3;
-  opacity: 0.78;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  flex: 1;
-}
-
-main .search-products .product-footer {
+main .search-products .price-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
   font-size: 13px;
   margin-top: auto;
 }
 
 main .search-products .product-price {
-  font-weight: 700;
+  font-weight: 600;
 }
 
-main .search-products .product-badge {
+main .search-products .category-badge {
   font-size: 11px;
   padding: 2px 8px;
-  background: rgba(255,255,255,0.15);
+  background: #2563eb;
+  color: #fff;
   border-radius: 10px;
   white-space: nowrap;
 }
 
-/* Navigation arrows */
-main .search-products .carousel-arrow {
+main .search-products .color-options {
+  font-size: 11px;
+  opacity: 0.78;
+}
+
+main .search-products .nav-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255,255,255,0.95);
-  border: 1px solid rgba(0,0,0,0.1);
-  color: #1a1a1a;
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  cursor: pointer;
-  z-index: 10;
+  background: rgba(255,255,255,0.95);
+  border: 1px solid rgba(0,0,0,0.1);
+  color: #333;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
-  transition: background 0.2s;
+  cursor: pointer;
+  z-index: 10;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: background 0.15s;
 }
 
-main .search-products .carousel-arrow:hover {
-  background: rgba(255,255,255,1);
+main .search-products .nav-arrow:hover {
+  background: #fff;
 }
 
-main .search-products .carousel-arrow:focus-visible {
-  outline: 2px solid #2d6ae0;
+main .search-products .nav-arrow:focus-visible {
+  outline: 2px solid #2563eb;
   outline-offset: 2px;
 }
 
-main .search-products .carousel-arrow-left {
-  left: -12px;
+main .search-products .nav-left {
+  left: -8px;
 }
 
-main .search-products .carousel-arrow-right {
-  right: -12px;
+main .search-products .nav-right {
+  right: -8px;
 }
 
-/* Dark mode */
+main .search-products .scroll-fade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 60px;
+  pointer-events: none;
+  border-radius: 0 10px 10px 0;
+}
+
 @media (prefers-color-scheme: dark) {
   main .search-products {
     background: transparent;
   }
-  main .search-products .carousel-arrow {
-    background: rgba(40,40,40,0.95);
+  main .search-products .product-card {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  main .search-products .product-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  main .search-products .nav-arrow {
+    background: rgba(50,50,50,0.95);
     border-color: rgba(255,255,255,0.1);
     color: #fff;
   }
-  main .search-products .carousel-arrow:hover {
-    background: rgba(50,50,50,1);
+  main .search-products .nav-arrow:hover {
+    background: #3a3a3a;
   }
 }
 
@@ -191,12 +214,20 @@ body.dark main .search-products {
   background: transparent;
 }
 
-body.dark main .search-products .carousel-arrow {
-  background: rgba(40,40,40,0.95);
+body.dark main .search-products .product-card {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+body.dark main .search-products .product-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+body.dark main .search-products .nav-arrow {
+  background: rgba(50,50,50,0.95);
   border-color: rgba(255,255,255,0.1);
   color: #fff;
 }
 
-body.dark main .search-products .carousel-arrow:hover {
-  background: rgba(50,50,50,1);
+body.dark main .search-products .nav-arrow:hover {
+  background: #3a3a3a;
 }
