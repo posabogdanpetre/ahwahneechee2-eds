@@ -1,35 +1,41 @@
-// Sample data for standalone/preview mode - store locations
+// Sample data for standalone/preview mode — matches outputSchema shape
 const SAMPLE_DATA = [
   {
-    name: "Patagonia Manchester",
-    address: "King Street, Manchester M2 7AZ",
-    phone: "+44 (0)161 834 4005",
-    directions_url: "https://maps.google.com/?q=Patagonia+Manchester"
+    name: 'Patagonia Portland',
+    address: '907 NW Irving St, Portland, OR 97209',
+    phone: '(503) 525-6552',
+    hours: 'Mon-Sat 10am-7pm, Sun 11am-6pm',
+    type: 'Retail Store'
   },
   {
-    name: "Patagonia Bristol",
-    address: "81 Park Street, Bristol BS1 5PF",
-    phone: "+44 (0)1202017184",
-    directions_url: "https://maps.google.com/?q=Patagonia+Bristol"
+    name: 'Patagonia Seattle',
+    address: '2100 1st Ave, Seattle, WA 98121',
+    phone: '(206) 622-9700',
+    hours: 'Mon-Sat 10am-8pm, Sun 11am-6pm',
+    type: 'Retail Store'
   }
 ];
 
-const PALETTE = ['#1a1a1a','#2d6ae0'];
+// Brand palette from BuildWidgetRequest
+const PALETTE = ['#1a1a1a', '#2d5f8a'];
 
 function getThemedCardBg(palette) {
   if (!palette || !palette[0]) return null;
-  let hex = palette[0].replace('#','');
-  if(hex.length===3)hex=hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
-  if(hex.length!==6)return null;
-  let [r,g,b]=[parseInt(hex.slice(0,2),16),parseInt(hex.slice(2,4),16),parseInt(hex.slice(4,6),16)];
-  if(isNaN(r)||isNaN(g)||isNaN(b))return null;
-  const lum=(c)=>{const s=c/255;return s<=0.03928?s/12.92:Math.pow((s+0.055)/1.055,2.4);};
-  const relLum=(r,g,b)=>0.2126*lum(r)+0.7152*lum(g)+0.0722*lum(b);
-  if(relLum(r,g,b)<=0.12)return{bg:`#${hex}`,fg:'#ffffff'};
-  let lo=0,hi=1;
-  for(let i=0;i<20;i++){const m=(lo+hi)/2;if(relLum(Math.round(r*m),Math.round(g*m),Math.round(b*m))>0.12)hi=m;else lo=m;}
-  const dr=Math.round(r*lo),dg=Math.round(g*lo),db=Math.round(b*lo);
-  return{bg:`#${dr.toString(16).padStart(2,'0')}${dg.toString(16).padStart(2,'0')}${db.toString(16).padStart(2,'0')}`,fg:'#ffffff'};
+  let hex = palette[0].replace('#', '');
+  if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+  if (hex.length !== 6) return null;
+  let [r, g, b] = [parseInt(hex.slice(0,2),16), parseInt(hex.slice(2,4),16), parseInt(hex.slice(4,6),16)];
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return null;
+  const lum = (c) => { const s=c/255; return s<=0.03928?s/12.92:Math.pow((s+0.055)/1.055,2.4); };
+  const relLum = (r,g,b) => 0.2126*lum(r)+0.7152*lum(g)+0.0722*lum(b);
+  if (relLum(r,g,b) <= 0.12) return { bg: `#${hex}`, fg: '#ffffff' };
+  let lo=0, hi=1;
+  for (let i=0; i<20; i++) {
+    const m=(lo+hi)/2;
+    if (relLum(Math.round(r*m),Math.round(g*m),Math.round(b*m)) > 0.12) hi=m; else lo=m;
+  }
+  const dr=Math.round(r*lo), dg=Math.round(g*lo), db=Math.round(b*lo);
+  return { bg:`#${dr.toString(16).padStart(2,'0')}${dg.toString(16).padStart(2,'0')}${db.toString(16).padStart(2,'0')}`, fg:'#ffffff' };
 }
 
 const theme = getThemedCardBg(PALETTE);
@@ -53,12 +59,7 @@ export default async function decorate(block, bridge) {
   }
 
   block.textContent = '';
-  
-  if (!stores || stores.length === 0) {
-    renderEmptyState(block, bridge);
-  } else {
-    renderStores(block, stores, bridge);
-  }
+  renderStoreLocator(block, stores, bridge);
 
   if (bridge) {
     bridge.reportSize(block.offsetWidth, block.offsetHeight);
@@ -71,89 +72,86 @@ export default async function decorate(block, bridge) {
   }
 }
 
-function renderEmptyState(block, bridge) {
-  const card = document.createElement('div');
-  card.className = 'find-store-empty';
-  card.style.cssText = `background:${theme?.bg ?? '#1a3a5c'};color:${theme?.fg ?? '#fff'}`;
-
-  const icon = document.createElement('div');
-  icon.className = 'pin-icon';
-  icon.innerHTML = '📍';
-  icon.style.cssText = `opacity:0.7;color:${theme?.fg ?? '#fff'}`;
-  card.appendChild(icon);
-
-  const heading = document.createElement('h3');
-  heading.textContent = 'Find a store near you';
-  card.appendChild(heading);
-
-  const input = document.createElement('input');
-  input.type = 'text';
-  input.placeholder = 'Enter ZIP code...';
-  input.className = 'zip-input';
-  card.appendChild(input);
-
-  const button = document.createElement('button');
-  button.className = 'search-btn';
-  button.textContent = 'Find Nearby';
-  if (bridge) {
-    button.addEventListener('click', () => {
-      const zip = input.value.trim();
-      if (zip) {
-        bridge.sendMessage(`Find stores near ${zip}`);
-      }
-    });
-  }
-  card.appendChild(button);
-
-  block.appendChild(card);
-}
-
-function renderStores(block, stores, bridge) {
+function renderStoreLocator(block, stores, bridge) {
   const container = document.createElement('div');
-  container.className = 'stores-container';
+  container.className = 'store-locator-container';
 
-  const displayStores = stores.slice(0, 2);
-  
-  displayStores.forEach((store, idx) => {
-    const card = document.createElement('div');
-    card.className = 'store-card';
-    card.style.cssText = `background:${theme?.bg ?? '#1a3a5c'};color:${theme?.fg ?? '#fff'}`;
+  if (!stores || stores.length === 0) {
+    // Empty state — search card
+    const searchCard = document.createElement('div');
+    searchCard.className = 'search-card';
+    searchCard.style.cssText = `background: ${theme?.bg ?? '#1a3a5c'}; color: ${theme?.fg ?? '#fff'};`;
 
-    const pinCircle = document.createElement('div');
-    pinCircle.className = 'pin-circle';
-    pinCircle.innerHTML = '📍';
-    card.appendChild(pinCircle);
+    const pinIcon = document.createElement('div');
+    pinIcon.className = 'pin-icon';
+    pinIcon.innerHTML = '📍';
+    searchCard.appendChild(pinIcon);
 
-    const name = document.createElement('h3');
-    name.className = 'store-name';
-    name.textContent = store.name;
-    card.appendChild(name);
+    const heading = document.createElement('h2');
+    heading.textContent = 'Find a store near you';
+    searchCard.appendChild(heading);
 
-    const address = document.createElement('p');
-    address.className = 'store-address';
-    address.textContent = store.address;
-    card.appendChild(address);
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = 'Enter ZIP code...';
+    input.className = 'location-input';
+    searchCard.appendChild(input);
 
-    if (store.phone) {
-      const phone = document.createElement('a');
-      phone.className = 'store-phone';
-      phone.href = `tel:${store.phone.replace(/\s/g, '')}`;
-      phone.textContent = store.phone;
-      card.appendChild(phone);
-    }
-
-    if (store.directions_url && bridge) {
-      const directions = document.createElement('button');
-      directions.className = 'directions-btn';
-      directions.textContent = 'Get Directions';
-      directions.addEventListener('click', () => {
-        bridge.openLink(store.directions_url);
+    const searchBtn = document.createElement('button');
+    searchBtn.className = 'search-btn';
+    searchBtn.textContent = 'Search';
+    searchBtn.style.cssText = `background: ${PALETTE[0] || '#1a1a1a'}; color: #fff;`;
+    if (bridge) {
+      searchBtn.addEventListener('click', () => {
+        const location = input.value.trim();
+        if (location) {
+          bridge.sendMessage(`Find stores near ${location}`);
+        }
       });
-      card.appendChild(directions);
     }
+    searchCard.appendChild(searchBtn);
 
-    container.appendChild(card);
-  });
+    container.appendChild(searchCard);
+  } else {
+    // Results — flex row of store cards
+    const resultsRow = document.createElement('div');
+    resultsRow.className = 'stores-row';
+
+    stores.slice(0, 2).forEach(store => {
+      const card = document.createElement('div');
+      card.className = 'store-card';
+      card.style.cssText = `background: ${theme?.bg ?? '#1a3a5c'}; color: ${theme?.fg ?? '#fff'};`;
+
+      const pinCircle = document.createElement('div');
+      pinCircle.className = 'pin-circle';
+      pinCircle.innerHTML = '📍';
+      card.appendChild(pinCircle);
+
+      const storeName = document.createElement('h3');
+      storeName.textContent = store.name;
+      card.appendChild(storeName);
+
+      const address = document.createElement('p');
+      address.className = 'store-address';
+      address.textContent = store.address;
+      card.appendChild(address);
+
+      const phone = document.createElement('p');
+      phone.className = 'store-phone';
+      phone.textContent = store.phone;
+      phone.style.cssText = `color: ${theme?.fg ?? '#fff'};`;
+      card.appendChild(phone);
+
+      const hours = document.createElement('p');
+      hours.className = 'store-hours';
+      hours.textContent = store.hours;
+      card.appendChild(hours);
+
+      resultsRow.appendChild(card);
+    });
+
+    container.appendChild(resultsRow);
+  }
 
   block.appendChild(container);
 }
