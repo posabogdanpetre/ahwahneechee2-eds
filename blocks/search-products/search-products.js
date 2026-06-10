@@ -1,17 +1,41 @@
-// Sample data for standalone/preview mode.
+// Sample data for standalone EDS preview (no bridge).
 // In production, data comes dynamically from bridge.toolResult.
 const SAMPLE_DATA = [
-  { name: 'Outdoor Jacket', price: '£189.00', category: 'Jackets & Vests', rating: 4.5, review_count: 42 },
-  { name: 'Fleece Pullover', price: '£95.00', category: 'Fleece', rating: 4.8, review_count: 128 },
-  { name: 'Hiking Pants', price: '£110.00', category: 'Bottoms', rating: 4.3, review_count: 67 },
-  { name: 'Trail Shorts', price: '£65.00', category: 'Shorts', rating: 4.6, review_count: 89 },
-  { name: 'Backpack 30L', price: '£145.00', category: 'Bags', rating: 4.7, review_count: 154 },
+  {
+    name: 'Better Sweater™ Fleece Jacket',
+    description: 'Warm 100% recycled polyester full-zip jacket with sweater-knit aesthetic and Fair Trade Certified construction.',
+    price: '£130',
+    category: 'Fleece'
+  },
+  {
+    name: 'Black Hole® Duffel 55L',
+    description: 'Legendary 55-liter duffel with weather-resistant 100% recycled fabric and removable backpack straps.',
+    price: '£160',
+    category: 'Packs & Gear'
+  },
+  {
+    name: 'Nano Puff® Jacket',
+    description: 'Lightweight, windproof insulated jacket with 60g PrimaLoft Gold Eco insulation and recycled shell.',
+    price: '£230',
+    category: 'Jackets & Vests'
+  },
+  {
+    name: 'Baggies™ Shorts 5"',
+    description: 'Quick-drying multifunctional shorts with a DWR finish, perfect for water and land.',
+    price: '£55',
+    category: 'Shorts'
+  },
+  {
+    name: 'Capilene® Cool Daily Shirt',
+    description: 'Lightweight moisture-wicking tee with HeiQ Fresh odor control and Fair Trade Certified.',
+    price: '£40',
+    category: 'T-Shirts'
+  }
 ];
 
-// Brand palette from BuildWidgetRequest — used to derive card info-strip background.
+// Brand palette from BuildWidgetRequest
 const PALETTE = [];
 
-// Darken palette[0] to luminance ≤ 0.12 for WCAG AA contrast with white text
 function getThemedCardBg(palette) {
   if (!palette || !palette[0]) return null;
   let hex = palette[0].replace('#', '');
@@ -30,10 +54,8 @@ function getThemedCardBg(palette) {
   const dr=Math.round(r*lo), dg=Math.round(g*lo), db=Math.round(b*lo);
   return { bg:`#${dr.toString(16).padStart(2,'0')}${dg.toString(16).padStart(2,'0')}${db.toString(16).padStart(2,'0')}`, fg:'#ffffff' };
 }
-const theme = getThemedCardBg(PALETTE);
 
-// Color fallback for missing/broken images
-const CARD_COLORS = ['#378ef0','#9256d9','#0fb5ae','#e68619','#d83790','#2dca72','#4046ca','#72b340'];
+const theme = getThemedCardBg(PALETTE);
 
 export default async function decorate(block, bridge) {
   let items;
@@ -68,17 +90,20 @@ export default async function decorate(block, bridge) {
 }
 
 function renderCarousel(block, items, bridge) {
+  const CARD_COLORS = ['#378ef0','#9256d9','#0fb5ae','#e68619','#d83790','#2dca72','#4046ca','#72b340'];
+
   const wrapper = document.createElement('div');
   wrapper.className = 'carousel-wrapper';
 
-  const scrollContainer = document.createElement('div');
-  scrollContainer.className = 'carousel-scroll';
+  const carousel = document.createElement('div');
+  carousel.className = 'carousel-container';
 
-  items.slice(0, 5).forEach((item, i) => {
+  const displayItems = items.slice(0, 5);
+
+  displayItems.forEach((item, i) => {
     const card = document.createElement('div');
     card.className = 'product-card';
 
-    // Image container with color fallback
     const imageContainer = document.createElement('div');
     imageContainer.className = 'card-image';
 
@@ -100,10 +125,10 @@ function renderCarousel(block, items, bridge) {
       imageContainer.appendChild(colorDiv());
     }
 
-    // CTA button on image
     const ctaBtn = document.createElement('button');
     ctaBtn.className = 'card-cta';
     ctaBtn.textContent = 'View Details';
+    ctaBtn.setAttribute('aria-label', `View details for ${item.name || 'product'}`);
     if (bridge) {
       ctaBtn.addEventListener('click', () => {
         bridge.sendMessage(`Tell me more about ${item.name}`);
@@ -113,86 +138,95 @@ function renderCarousel(block, items, bridge) {
 
     card.appendChild(imageContainer);
 
-    // Content section with darkened palette background
     const content = document.createElement('div');
     content.className = 'card-content';
     content.style.cssText = `background:${theme?.bg ?? '#1a1a1a'};color:${theme?.fg ?? '#fff'}`;
 
-    const name = document.createElement('div');
-    name.className = 'card-name';
+    const name = document.createElement('h3');
+    name.className = 'card-title';
     name.textContent = item.name || '';
     content.appendChild(name);
 
-    const row = document.createElement('div');
-    row.className = 'card-row';
+    const priceRow = document.createElement('div');
+    priceRow.className = 'card-price-row';
 
     const price = document.createElement('span');
     price.className = 'card-price';
     price.textContent = item.price || '';
-    row.appendChild(price);
+    priceRow.appendChild(price);
 
     if (item.category) {
       const badge = document.createElement('span');
       badge.className = 'card-badge';
       badge.textContent = item.category;
-      row.appendChild(badge);
+      priceRow.appendChild(badge);
     }
 
-    content.appendChild(row);
+    content.appendChild(priceRow);
     card.appendChild(content);
-    scrollContainer.appendChild(card);
+
+    carousel.appendChild(card);
   });
 
-  wrapper.appendChild(scrollContainer);
+  wrapper.appendChild(carousel);
 
-  // Arrow navigation
+  // Left arrow
   const leftArrow = document.createElement('button');
   leftArrow.className = 'carousel-arrow carousel-arrow-left';
   leftArrow.setAttribute('aria-label', 'Scroll left');
-  leftArrow.textContent = '◀';
+  leftArrow.innerHTML = '&#9664;';
   leftArrow.style.display = 'none';
+  wrapper.appendChild(leftArrow);
 
+  // Right arrow
   const rightArrow = document.createElement('button');
   rightArrow.className = 'carousel-arrow carousel-arrow-right';
   rightArrow.setAttribute('aria-label', 'Scroll right');
-  rightArrow.textContent = '▶';
+  rightArrow.innerHTML = '&#9654;';
+  wrapper.appendChild(rightArrow);
 
+  // Right fade gradient
+  if (displayItems.length > 3) {
+    const fade = document.createElement('div');
+    fade.className = 'carousel-fade';
+    fade.style.cssText = `position:absolute;top:0;right:0;height:100%;width:60px;background:linear-gradient(to right,transparent,${theme?.bg ?? '#1a1a1a'}cc);pointer-events:none;border-radius:0 10px 10px 0;`;
+    wrapper.appendChild(fade);
+  }
+
+  block.appendChild(wrapper);
+
+  // Arrow navigation
+  const scrollLeft = () => {
+    carousel.scrollBy({ left: -220, behavior: 'smooth' });
+  };
+  const scrollRight = () => {
+    carousel.scrollBy({ left: 220, behavior: 'smooth' });
+  };
+
+  leftArrow.addEventListener('click', scrollLeft);
+  rightArrow.addEventListener('click', scrollRight);
+
+  leftArrow.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      scrollLeft();
+    }
+  });
+  rightArrow.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      scrollRight();
+    }
+  });
+
+  // Show/hide arrows based on scroll position
   const updateArrows = () => {
-    const atStart = scrollContainer.scrollLeft <= 1;
-    const atEnd = scrollContainer.scrollLeft >= scrollContainer.scrollWidth - scrollContainer.clientWidth - 1;
+    const atStart = carousel.scrollLeft <= 0;
+    const atEnd = carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 1;
     leftArrow.style.display = atStart ? 'none' : 'flex';
     rightArrow.style.display = atEnd ? 'none' : 'flex';
   };
 
-  const scrollByCard = (direction) => {
-    const cardWidth = 220 + 16; // card width + gap
-    scrollContainer.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
-  };
-
-  leftArrow.addEventListener('click', () => scrollByCard(-1));
-  rightArrow.addEventListener('click', () => scrollByCard(1));
-
-  // Keyboard support for arrows
-  [leftArrow, rightArrow].forEach((arrow, idx) => {
-    arrow.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        scrollByCard(idx === 0 ? -1 : 1);
-      }
-    });
-  });
-
-  scrollContainer.addEventListener('scroll', updateArrows);
+  carousel.addEventListener('scroll', updateArrows);
   updateArrows();
-
-  wrapper.appendChild(leftArrow);
-  wrapper.appendChild(rightArrow);
-
-  // Right fade gradient
-  const fade = document.createElement('div');
-  fade.className = 'carousel-fade';
-  fade.style.cssText = `position:absolute;top:0;right:0;height:100%;width:60px;background:linear-gradient(to right,transparent,${theme?.bg ?? '#1a1a1a'}cc);pointer-events:none;border-radius:0 10px 10px 0;`;
-  wrapper.appendChild(fade);
-
-  block.appendChild(wrapper);
 }
