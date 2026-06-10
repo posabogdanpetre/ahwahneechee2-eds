@@ -1,8 +1,23 @@
-// Sample data for standalone/preview mode.
-// In production, data comes dynamically from bridge.toolResult.
-const SAMPLE_DATA = [];
+// Sample data for standalone/preview mode — using outputSchema structure
+const SAMPLE_DATA = [
+  {
+    name: 'Patagonia Ventura',
+    address: '235 West Santa Clara Street',
+    city: 'Ventura',
+    phone: '(805) 643-8616',
+    hours: 'Mon-Sat 10am-6pm, Sun 11am-5pm',
+    store_type: 'Retail Store'
+  },
+  {
+    name: 'Patagonia Santa Monica',
+    address: '1344 4th Street',
+    city: 'Santa Monica',
+    phone: '(310) 393-4445',
+    hours: 'Mon-Sat 10am-7pm, Sun 11am-6pm',
+    store_type: 'Retail Store'
+  }
+];
 
-// Brand palette from BuildWidgetRequest.
 const PALETTE = [];
 
 function getThemedCardBg(palette) {
@@ -24,9 +39,8 @@ function getThemedCardBg(palette) {
   return { bg:`#${dr.toString(16).padStart(2,'0')}${dg.toString(16).padStart(2,'0')}${db.toString(16).padStart(2,'0')}`, fg:'#ffffff' };
 }
 
-const theme = getThemedCardBg(PALETTE);
-
 export default async function decorate(block, bridge) {
+  const theme = getThemedCardBg(PALETTE);
   let stores;
 
   if (bridge) {
@@ -45,7 +59,12 @@ export default async function decorate(block, bridge) {
   }
 
   block.textContent = '';
-  renderStoreLocator(block, stores, bridge);
+  
+  if (!stores || stores.length === 0) {
+    renderEmptyState(block, theme, bridge);
+  } else {
+    renderStores(block, stores, theme, bridge);
+  }
 
   if (bridge) {
     bridge.reportSize(block.offsetWidth, block.offsetHeight);
@@ -58,98 +77,87 @@ export default async function decorate(block, bridge) {
   }
 }
 
-function renderStoreLocator(block, stores, bridge) {
-  const container = document.createElement('div');
-  container.className = 'store-locator-container';
+function renderEmptyState(block, theme, bridge) {
+  const card = document.createElement('div');
+  card.className = 'find-store-search-card';
+  card.style.cssText = `background: ${theme?.bg ?? '#1a3a5c'}; color: ${theme?.fg ?? '#fff'};`;
 
-  if (!stores || stores.length === 0) {
-    // Empty state: search card
-    const searchCard = document.createElement('div');
-    searchCard.className = 'search-card';
-    searchCard.style.cssText = `background:#f5f5f5;color:#333`;
+  const icon = document.createElement('div');
+  icon.className = 'find-store-pin-icon';
+  icon.innerHTML = `<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
+  card.appendChild(icon);
 
-    const pinIcon = document.createElement('div');
-    pinIcon.className = 'pin-icon';
-    pinIcon.innerHTML = `<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
-    searchCard.appendChild(pinIcon);
+  const heading = document.createElement('h2');
+  heading.textContent = 'Find a store near you';
+  card.appendChild(heading);
 
-    const heading = document.createElement('h2');
-    heading.textContent = 'Find a store near you';
-    searchCard.appendChild(heading);
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.placeholder = 'Enter ZIP code...';
+  input.className = 'find-store-input';
+  card.appendChild(input);
 
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.placeholder = 'Enter ZIP code...';
-    input.className = 'zip-input';
-    searchCard.appendChild(input);
-
-    const button = document.createElement('button');
-    button.className = 'search-btn';
-    button.textContent = 'Search';
-    if (bridge) {
-      button.addEventListener('click', () => {
-        const zip = input.value.trim();
-        if (zip) {
-          bridge.sendMessage(`Find stores near ${zip}`);
-        }
-      });
-      input.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          const zip = input.value.trim();
-          if (zip) {
-            bridge.sendMessage(`Find stores near ${zip}`);
-          }
-        }
-      });
-    }
-    searchCard.appendChild(button);
-
-    container.appendChild(searchCard);
-  } else {
-    // Results: store cards
-    const resultsRow = document.createElement('div');
-    resultsRow.className = 'results-row';
-
-    const displayStores = stores.slice(0, 2);
-    displayStores.forEach(store => {
-      const storeCard = document.createElement('div');
-      storeCard.className = 'store-card';
-      storeCard.style.cssText = `background:${theme?.bg ?? '#1a3a5c'};color:${theme?.fg ?? '#fff'}`;
-
-      const pinCircle = document.createElement('div');
-      pinCircle.className = 'pin-circle';
-      pinCircle.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
-      storeCard.appendChild(pinCircle);
-
-      const storeName = document.createElement('div');
-      storeName.className = 'store-name';
-      storeName.textContent = store.name || '';
-      storeCard.appendChild(storeName);
-
-      const address = document.createElement('div');
-      address.className = 'store-address';
-      address.textContent = store.address || '';
-      storeCard.appendChild(address);
-
-      if (store.phone) {
-        const phone = document.createElement('div');
-        phone.className = 'store-phone';
-        phone.textContent = store.phone;
-        storeCard.appendChild(phone);
+  const button = document.createElement('button');
+  button.textContent = 'Search';
+  button.className = 'find-store-search-btn';
+  if (bridge) {
+    button.addEventListener('click', () => {
+      const location = input.value.trim();
+      if (location) {
+        bridge.sendMessage(`Find stores near ${location}`);
       }
-
-      if (store.hours) {
-        const hours = document.createElement('div');
-        hours.className = 'store-hours';
-        hours.textContent = store.hours;
-        storeCard.appendChild(hours);
-      }
-
-      resultsRow.appendChild(storeCard);
     });
-
-    container.appendChild(resultsRow);
   }
+  card.appendChild(button);
+
+  block.appendChild(card);
+}
+
+function renderStores(block, stores, theme, bridge) {
+  const container = document.createElement('div');
+  container.className = 'find-store-results';
+
+  const displayStores = stores.slice(0, 2);
+  
+  displayStores.forEach(store => {
+    const card = document.createElement('div');
+    card.className = 'find-store-card';
+    card.style.cssText = `background: ${theme?.bg ?? '#1a3a5c'}; color: ${theme?.fg ?? '#fff'};`;
+
+    const pinCircle = document.createElement('div');
+    pinCircle.className = 'find-store-pin-circle';
+    pinCircle.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
+    card.appendChild(pinCircle);
+
+    const name = document.createElement('div');
+    name.className = 'find-store-name';
+    name.textContent = store.name;
+    card.appendChild(name);
+
+    const address = document.createElement('div');
+    address.className = 'find-store-address';
+    address.textContent = store.address;
+    if (store.city) {
+      address.textContent += `, ${store.city}`;
+    }
+    card.appendChild(address);
+
+    if (store.phone) {
+      const phone = document.createElement('div');
+      phone.className = 'find-store-phone';
+      phone.textContent = store.phone;
+      card.appendChild(phone);
+    }
+
+    if (store.hours) {
+      const hours = document.createElement('div');
+      hours.className = 'find-store-hours';
+      hours.textContent = store.hours;
+      card.appendChild(hours);
+    }
+
+    container.appendChild(card);
+  });
 
   block.appendChild(container);
 }
