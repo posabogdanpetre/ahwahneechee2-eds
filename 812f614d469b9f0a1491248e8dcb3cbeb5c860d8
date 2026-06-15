@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "mode": "full",
+  "commit_sha": "812f614d469b9f0a1491248e8dcb3cbeb5c860d8",
+  "author": "bposa@adobe.com",
+  "timestamp": "2026-06-15T11:04:50+03:00",
+  "detection": {
+    "ai_assisted": true,
+    "method": "editor_hook",
+    "tool": "cursor",
+    "model": "",
+    "confidence": 1.0
+  },
+  "stats": {
+    "total_additions": 1,
+    "total_deletions": 0,
+    "ai_additions": 1,
+    "ai_deletions": 0,
+    "human_additions": 0,
+    "human_deletions": 0
+  },
+  "files": {
+    "tools/widget-preview.html": {
+      "ai_additions": 1,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "51",
+      "human_lines": ""
+    }
+  }
+}
