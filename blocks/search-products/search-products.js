@@ -2,43 +2,42 @@
 // In production, data comes dynamically from bridge.toolResult.
 const SAMPLE_DATA = [
   {
-    name: "Women's Better Sweater Fleece Jacket",
-    description: "Full-zip jacket made of warm, 100% recycled polyester fleece.",
-    image_url: "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw0e491b7c/images/hi-res/25543_STH.jpg",
-    price: "",
-    category: "Women's Fleece"
+    "name": "Men's Torrentshell 3L Rain Jacket",
+    "description": "Waterproof/breathable 3-layer rain jacket providing excellent performance, comfort and durability.",
+    "image_url": "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw3f39aea6/images/hi-res/85241_LMST.jpg?sw=1400&sh=1400&sfrm=png&q=90&bgcolor=f3f4ef",
+    "price": "£180",
+    "category": "Men's Jackets"
   },
   {
-    name: "Men's Houdini Windbreaker Jacket",
-    description: "Packable, featherweight windproof shell made from 100% recycled nylon.",
-    image_url: "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw4c81478a/images/hi-res/24142_BLK.jpg",
-    price: "",
-    category: "Men's Jackets"
+    "name": "Women's Nano Puff Packable Insulated Jacket",
+    "description": "Warm, windproof, water-resistant jacket with lightweight compressible insulation for packability.",
+    "image_url": "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dwbdabaa49/images/hi-res/84218_SMDB.jpg?sw=1400&sh=1400&sfrm=png&q=90&bgcolor=f3f4ef",
+    "price": "£170",
+    "category": "Women's Jackets"
   },
   {
-    name: "Women's Retro Pile Fleece Jacket",
-    description: "Heritage-inspired jacket made with 100% recycled polyester deep-pile fleece.",
-    image_url: "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw5e1dce1a/images/hi-res/22795_NAT.jpg",
-    price: "",
-    category: "Women's Fleece"
+    "name": "Men's Better Sweater Fleece Jacket",
+    "description": "Warm, low-bulk full-zip jacket made of sweater-knit 100% recycled polyester fleece.",
+    "image_url": "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dwf4894a9f/images/hi-res/25528_BLK.jpg?sw=1400&sh=1400&sfrm=png&q=90&bgcolor=f3f4ef",
+    "price": "£130",
+    "category": "Men's Fleece"
   },
   {
-    name: "Women's Better Sweater 1/4-Zip Fleece Pullover",
-    description: "Quarter-zip pullover with sweater-knit aesthetic in 100% recycled polyester.",
-    image_url: "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dwb3c2fcac/images/hi-res/25618_BCW.jpg",
-    price: "",
-    category: "Women's Fleece"
+    "name": "Women's Torrentshell 3L Rain Jacket",
+    "description": "Exceptional waterproof/breathable rain jacket providing performance, comfort and durability.",
+    "image_url": "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw5b977282/images/hi-res/85246_BLK.jpg?sw=1400&sh=1400&sfrm=png&q=90&bgcolor=f3f4ef",
+    "price": "£180",
+    "category": "Women's Jackets"
   },
   {
-    name: "Men's Windsweep Lightweight Windbreaker Jacket",
-    description: "Lightweight, packable windbreaker for everyday adventures.",
-    image_url: "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw9a7b312e/images/hi-res/20320_INK.jpg",
-    price: "",
-    category: "Men's Jackets"
+    "name": "Men's Durable Down Parka",
+    "description": "Lofty 800-fill-power down belay jacket with two-way zipper and rock abrasion resistance.",
+    "image_url": "https://eu.patagonia.com/dw/image/v2/BDJB_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw903101cf/images/hi-res/85520_SMDB.jpg?sw=1400&sh=1400&sfrm=png&q=90&bgcolor=f3f4ef",
+    "price": "£575",
+    "category": "Men's Jackets"
   }
 ];
 
-// Brand palette from BuildWidgetRequest — empty palette provided, will use fallback.
 const PALETTE = [];
 
 function getThemedCardBg(palette) {
@@ -103,23 +102,13 @@ function renderProducts(block, products, bridge, theme) {
   const carousel = document.createElement('div');
   carousel.className = 'products-carousel';
 
-  const leftArrow = document.createElement('button');
-  leftArrow.className = 'carousel-arrow carousel-arrow-left';
-  leftArrow.setAttribute('aria-label', 'Scroll left');
-  leftArrow.textContent = '◀';
-  leftArrow.style.display = 'none';
-
-  const rightArrow = document.createElement('button');
-  rightArrow.className = 'carousel-arrow carousel-arrow-right';
-  rightArrow.setAttribute('aria-label', 'Scroll right');
-  rightArrow.textContent = '▶';
-
-  products.slice(0, 5).forEach((product, i) => {
+  const items = products.slice(0, 5);
+  items.forEach((product, i) => {
     const card = document.createElement('div');
     card.className = 'product-card';
 
-    const imageContainer = document.createElement('div');
-    imageContainer.className = 'product-image';
+    const imageWrapper = document.createElement('div');
+    imageWrapper.className = 'product-image';
 
     const fallbackColor = CARD_COLORS[i % CARD_COLORS.length];
     const colorDiv = () => {
@@ -131,107 +120,112 @@ function renderProducts(block, products, bridge, theme) {
     if (product.image_url) {
       const img = document.createElement('img');
       img.src = product.image_url;
-      img.alt = product.name || '';
+      img.alt = product.name || 'Product image';
       img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
       img.onerror = () => {
         if (img.parentNode) {
           img.parentNode.replaceChild(colorDiv(), img);
         }
       };
-      imageContainer.appendChild(img);
+      imageWrapper.appendChild(img);
     } else {
-      imageContainer.appendChild(colorDiv());
+      imageWrapper.appendChild(colorDiv());
     }
 
     const ctaBtn = document.createElement('button');
-    ctaBtn.className = 'cta-on-image';
+    ctaBtn.className = 'cta-overlay';
     ctaBtn.textContent = 'View Details';
+    ctaBtn.setAttribute('aria-label', `View details for ${product.name || 'product'}`);
     if (bridge) {
       ctaBtn.addEventListener('click', () => {
         bridge.sendMessage(`Tell me more about ${product.name}`);
       });
     }
-    imageContainer.appendChild(ctaBtn);
+    imageWrapper.appendChild(ctaBtn);
 
-    card.appendChild(imageContainer);
+    card.appendChild(imageWrapper);
 
     const info = document.createElement('div');
     info.className = 'product-info';
-    info.style.cssText = `background:${theme?.bg ?? '#ffffff'};color:${theme?.fg ?? '#333'}`;
+    if (theme) {
+      info.style.cssText = `background:${theme.bg};color:${theme.fg}`;
+    }
 
-    const name = document.createElement('h3');
+    const name = document.createElement('div');
     name.className = 'product-name';
-    name.textContent = product.name;
+    name.textContent = product.name || '';
     info.appendChild(name);
 
-    const desc = document.createElement('p');
+    const desc = document.createElement('div');
     desc.className = 'product-description';
     desc.textContent = product.description || '';
     info.appendChild(desc);
 
-    const meta = document.createElement('div');
-    meta.className = 'product-meta';
+    const footer = document.createElement('div');
+    footer.className = 'product-footer';
 
-    if (product.price) {
-      const price = document.createElement('span');
-      price.className = 'product-price';
-      price.textContent = product.price;
-      meta.appendChild(price);
-    }
+    const price = document.createElement('span');
+    price.className = 'product-price';
+    price.textContent = product.price || '';
+    footer.appendChild(price);
 
     if (product.category) {
       const badge = document.createElement('span');
-      badge.className = 'product-category';
+      badge.className = 'product-badge';
       badge.textContent = product.category;
-      meta.appendChild(badge);
+      footer.appendChild(badge);
     }
 
-    info.appendChild(meta);
+    info.appendChild(footer);
     card.appendChild(info);
     carousel.appendChild(card);
   });
 
-  wrapper.appendChild(leftArrow);
   wrapper.appendChild(carousel);
-  wrapper.appendChild(rightArrow);
+
+  const leftBtn = document.createElement('button');
+  leftBtn.className = 'nav-btn nav-left';
+  leftBtn.innerHTML = '&#9664;';
+  leftBtn.setAttribute('aria-label', 'Scroll left');
+  leftBtn.style.display = 'none';
+  leftBtn.addEventListener('click', () => {
+    carousel.scrollBy({ left: -236, behavior: 'smooth' });
+  });
+
+  const rightBtn = document.createElement('button');
+  rightBtn.className = 'nav-btn nav-right';
+  rightBtn.innerHTML = '&#9654;';
+  rightBtn.setAttribute('aria-label', 'Scroll right');
+  rightBtn.addEventListener('click', () => {
+    carousel.scrollBy({ left: 236, behavior: 'smooth' });
+  });
+
+  const updateNavButtons = () => {
+    const atStart = carousel.scrollLeft <= 1;
+    const atEnd = carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 1;
+    leftBtn.style.display = atStart ? 'none' : 'flex';
+    rightBtn.style.display = atEnd ? 'none' : 'flex';
+  };
+
+  carousel.addEventListener('scroll', updateNavButtons);
+  updateNavButtons();
+
+  [leftBtn, rightBtn].forEach(btn => {
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        btn.click();
+      }
+    });
+  });
+
+  wrapper.appendChild(leftBtn);
+  wrapper.appendChild(rightBtn);
 
   const fade = document.createElement('div');
-  fade.className = 'carousel-fade';
-  fade.style.cssText = `position:absolute;top:0;right:0;height:100%;width:60px;background:linear-gradient(to right,transparent,${theme?.bg ?? '#ffffff'}cc);pointer-events:none;border-radius:0 10px 10px 0;`;
+  fade.className = 'fade-overlay';
+  fade.style.cssText = `position:absolute;top:0;right:0;height:100%;width:60px;background:linear-gradient(to right,transparent,${theme?.bg ?? '#1a1a1a'}cc);pointer-events:none;border-radius:0 10px 10px 0;`;
   wrapper.appendChild(fade);
 
   block.appendChild(wrapper);
-
-  const updateArrows = () => {
-    const atStart = carousel.scrollLeft <= 0;
-    const atEnd = carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 1;
-    leftArrow.style.display = atStart ? 'none' : 'flex';
-    rightArrow.style.display = atEnd ? 'none' : 'flex';
-    fade.style.display = atEnd ? 'none' : 'block';
-  };
-
-  const scrollByCard = (direction) => {
-    const cardWidth = 220 + 16;
-    carousel.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
-  };
-
-  leftArrow.addEventListener('click', () => scrollByCard(-1));
-  rightArrow.addEventListener('click', () => scrollByCard(1));
-
-  leftArrow.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      scrollByCard(-1);
-    }
-  });
-
-  rightArrow.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      scrollByCard(1);
-    }
-  });
-
-  carousel.addEventListener('scroll', updateArrows);
-  updateArrows();
 }
