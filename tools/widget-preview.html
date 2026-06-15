@@ -42,37 +42,6 @@
       color: #111;
     }
 
-    .wp-toolbar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 16px;
-      background: #fff;
-      border-bottom: 1px solid #e0e0e0;
-      font-size: 13px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .wp-toolbar strong {
-      font-weight: 600;
-    }
-
-    .wp-toolbar .wp-tag {
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: #e8f0ff;
-      color: #1452c8;
-      font-size: 11px;
-      font-weight: 600;
-    }
-
-    .wp-toolbar .wp-status {
-      margin-left: auto;
-      color: #666;
-    }
-
     .wp-stage {
       padding: 24px;
       display: flex;
@@ -101,19 +70,12 @@
 
     @media (prefers-color-scheme: dark) {
       body { background: #1a1a1a; color: #eee; }
-      .wp-toolbar { background: #242424; border-bottom-color: #383838; }
       .wp-stage main { background: #141414; box-shadow: none; }
-      .wp-toolbar .wp-tag { background: #16335c; color: #9cc2ff; }
     }
   </style>
 </head>
 
 <body>
-  <div class="wp-toolbar">
-    <span class="wp-tag">content-less preview</span>
-    <span>block: <strong id="wp-name">—</strong></span>
-    <span class="wp-status" id="wp-status">loading…</span>
-  </div>
   <div class="wp-stage" id="wp-stage"></div>
 
   <script type="module" nonce="aem">
@@ -125,16 +87,12 @@
     const slug = params.get('block');
 
     const stage = document.getElementById('wp-stage');
-    const statusEl = document.getElementById('wp-status');
-    const nameEl = document.getElementById('wp-name');
-    nameEl.textContent = slug || '—';
 
     function showError(msg) {
       const box = document.createElement('div');
       box.className = 'wp-error';
       box.textContent = msg;
       stage.replaceChildren(box);
-      statusEl.textContent = 'error';
       document.body.classList.add('appear');
     }
 
@@ -223,7 +181,6 @@
         // EDS styles.css keeps <body> hidden until `.appear` is set (normally
         // added by scripts.js/aem-embed). Reveal it now that the block is in.
         document.body.classList.add('appear');
-        statusEl.textContent = 'rendered · code-bus only · no da.live';
       } catch (err) {
         showError(`Failed to load block "${name}": ${err && err.message ? err.message : err}`);
       }
