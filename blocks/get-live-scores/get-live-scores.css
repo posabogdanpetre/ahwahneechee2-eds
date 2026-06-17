@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+main > div,
+main > .section,
+main > .section:first-of-type {
+  margin: 0;
+}
+main > .section > div {
+  max-width: none;
+  padding: 0;
+}
+body {
+  overflow: auto;
+}
+
+main .get-live-scores {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: transparent;
+}
+
+main .get-live-scores .competition-group {
+  margin-bottom: 20px;
+}
+
+main .get-live-scores .competition-group:last-child {
+  margin-bottom: 0;
+}
+
+main .get-live-scores .competition-heading {
+  font-size: 14px;
+  font-weight: 700;
+  color: #424242;
+  margin: 0 0 8px 0;
+  padding: 0;
+}
+
+main .get-live-scores .match-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  background: white;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+main .get-live-scores .match-card:last-child {
+  margin-bottom: 0;
+}
+
+main .get-live-scores .team-home {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #424242;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+main .get-live-scores .match-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  gap: 2px;
+}
+
+main .get-live-scores .score-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+main .get-live-scores .status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+main .get-live-scores .status-dot.live {
+  background: #109e49;
+}
+
+main .get-live-scores .status-dot.finished {
+  background: #577286;
+}
+
+main .get-live-scores .status-dot.scheduled {
+  background: #3860be;
+}
+
+main .get-live-scores .score {
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1;
+}
+
+main .get-live-scores .score.live {
+  color: #109e49;
+}
+
+main .get-live-scores .score.finished {
+  color: #577286;
+}
+
+main .get-live-scores .score.scheduled {
+  color: #424242;
+}
+
+main .get-live-scores .match-time {
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+  color: rgba(0,0,0,0.55);
+  line-height: 1;
+}
+
+main .get-live-scores .team-away {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #424242;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+main .get-live-scores .view-details {
+  font-size: 12px;
+  color: #3860be;
+  text-decoration: none;
+  opacity: 0.8;
+  flex-shrink: 0;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: opacity 0.15s;
+}
+
+main .get-live-scores .view-details:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+  main .get-live-scores {
+    background: transparent;
+  }
+  main .get-live-scores .competition-heading {
+    color: #e5e5e5;
+  }
+  main .get-live-scores .match-card {
+    background: #1e1e1e;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  main .get-live-scores .team-home,
+  main .get-live-scores .team-away {
+    color: #e5e5e5;
+  }
+  main .get-live-scores .match-time {
+    color: rgba(255,255,255,0.55);
+  }
+}
+
+body.dark main .get-live-scores {
+  background: transparent;
+}
+body.dark main .get-live-scores .competition-heading {
+  color: #e5e5e5;
+}
+body.dark main .get-live-scores .match-card {
+  background: #1e1e1e;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+body.dark main .get-live-scores .team-home,
+body.dark main .get-live-scores .team-away {
+  color: #e5e5e5;
+}
+body.dark main .get-live-scores .match-time {
+  color: rgba(255,255,255,0.55);
+}
