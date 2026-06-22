@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Required for correct iframe sizing — AEM section margins inflate shadow body */
+main > div,
+main > .section,
+main > .section:first-of-type {
+  margin: 0;
+}
+main > .section > div {
+  max-width: none;
+  padding: 0;
+}
+body {
+  overflow: auto;
+}
+
+main .get-standings {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 0;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+main .get-standings .standings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+main .get-standings .standings-header {
+  background: #109e49;
+  padding: 16px;
+  text-align: center;
+}
+
+main .get-standings .standings-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+main .get-standings .table-wrapper {
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+main .get-standings .standings-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: var(--background-color, #ffffff);
+}
+
+main .get-standings .standings-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #109e49;
+}
+
+main .get-standings .standings-table th {
+  padding: 10px 8px;
+  font-weight: 700;
+  font-size: 13px;
+  color: #ffffff;
+  text-align: left;
+  border-bottom: 2px solid #555555;
+}
+
+main .get-standings .standings-table tbody tr {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+main .get-standings .standings-table tbody tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+main .get-standings .standings-table tbody tr:nth-child(odd) {
+  background: #ffffff;
+}
+
+main .get-standings .standings-table td {
+  padding: 10px 8px;
+  text-align: left;
+  color: var(--text-color, #000000);
+}
+
+main .get-standings .standings-table .position-cell {
+  font-weight: 600;
+  text-align: center;
+  width: 40px;
+}
+
+main .get-standings .standings-table .team-cell {
+  font-weight: 600;
+  min-width: 140px;
+}
+
+/* Top positions highlight */
+main .get-standings .standings-table tbody tr.top-position {
+  border-left: 4px solid #109e49;
+}
+
+main .get-standings .standings-table tbody tr.top-position .position-cell {
+  color: #109e49;
+}
+
+/* Relegation zone highlight */
+main .get-standings .standings-table tbody tr.relegation-zone {
+  border-left: 4px solid #e34850;
+}
+
+main .get-standings .standings-table tbody tr.relegation-zone .position-cell {
+  color: #e34850;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  main .get-standings .standings-table {
+    background: #1a1a1a;
+  }
+
+  main .get-standings .standings-table tbody tr:nth-child(even) {
+    background: #242424;
+  }
+
+  main .get-standings .standings-table tbody tr:nth-child(odd) {
+    background: #1a1a1a;
+  }
+
+  main .get-standings .standings-table tbody tr {
+    border-bottom: 1px solid #333333;
+  }
+
+  main .get-standings .standings-table td {
+    color: #ffffff;
+  }
+
+  main .get-standings .standings-table tbody tr.top-position .position-cell {
+    color: #3ad989;
+  }
+
+  main .get-standings .standings-table tbody tr.relegation-zone .position-cell {
+    color: #ff6b74;
+  }
+}
+
+body.dark main .get-standings .standings-table {
+  background: #1a1a1a;
+}
+
+body.dark main .get-standings .standings-table tbody tr:nth-child(even) {
+  background: #242424;
+}
+
+body.dark main .get-standings .standings-table tbody tr:nth-child(odd) {
+  background: #1a1a1a;
+}
+
+body.dark main .get-standings .standings-table tbody tr {
+  border-bottom: 1px solid #333333;
+}
+
+body.dark main .get-standings .standings-table td {
+  color: #ffffff;
+}
+
+body.dark main .get-standings .standings-table tbody tr.top-position .position-cell {
+  color: #3ad989;
+}
+
+body.dark main .get-standings .standings-table tbody tr.relegation-zone .position-cell {
+  color: #ff6b74;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  main .get-standings .standings-table th,
+  main .get-standings .standings-table td {
+    padding: 8px 4px;
+    font-size: 12px;
+  }
+
+  main .get-standings .standings-header h2 {
+    font-size: 16px;
+  }
+}
