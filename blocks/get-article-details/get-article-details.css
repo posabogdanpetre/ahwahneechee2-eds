@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Required for correct iframe sizing — AEM section margins inflate shadow body */
+main > div,
+main > .section,
+main > .section:first-of-type {
+  margin: 0;
+}
+main > .section > div {
+  max-width: none;
+  padding: 0;
+}
+body {
+  overflow: auto;
+}
+
+main .get-article-details {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 8px;
+}
+
+main .get-article-details .article-card {
+  display: flex;
+  flex-direction: row;
+  height: 280px;
+  max-width: 620px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+main .get-article-details .article-image {
+  position: relative;
+  flex: 0 0 260px;
+  height: 100%;
+  overflow: hidden;
+}
+
+main .get-article-details .article-cta {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #109e49;
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+
+main .get-article-details .article-cta:hover {
+  opacity: 0.88;
+}
+
+main .get-article-details .article-content {
+  flex: 1;
+  min-width: 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+}
+
+main .get-article-details .article-badge {
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: inherit;
+}
+
+main .get-article-details .article-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: inherit;
+}
+
+main .get-article-details .article-desc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  opacity: 0.78;
+  color: inherit;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 575px) {
+  main .get-article-details .article-card {
+    height: auto;
+  }
+  main .get-article-details .article-image {
+    flex: 0 0 140px;
+  }
+}
+
+/* Dark theme — dim outer widget background only; keep palette card strip intact. */
+@media (prefers-color-scheme: dark) {
+  main .get-article-details { background: #111; }
+}
+body.dark main .get-article-details { background: #111; }
