@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Required for correct iframe sizing — AEM section margins inflate shadow body */
+main > div,
+main > .section,
+main > .section:first-of-type {
+  margin: 0;
+}
+main > .section > div {
+  max-width: none;
+  padding: 0;
+}
+body {
+  overflow: auto;
+}
+
+main .list-news-articles {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 8px;
+  max-width: 780px;
+  box-sizing: border-box;
+}
+
+main .list-news-articles .list-news-articles-wrapper {
+  position: relative;
+}
+
+main .list-news-articles .list-news-articles-track {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 2px;
+}
+
+main .list-news-articles .list-news-articles-track::-webkit-scrollbar {
+  display: none;
+}
+
+main .list-news-articles .list-news-articles-card {
+  flex: 0 0 220px;
+  height: 300px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+main .list-news-articles .list-news-articles-media {
+  position: relative;
+  flex: 6;
+  width: 100%;
+  overflow: hidden;
+}
+
+main .list-news-articles .list-news-articles-media img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+main .list-news-articles .list-news-articles-cta {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  padding: 7px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #109e49;
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+
+main .list-news-articles .list-news-articles-cta:hover {
+  opacity: 0.9;
+}
+
+main .list-news-articles .list-news-articles-cta:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+main .list-news-articles .list-news-articles-info {
+  flex: 4;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+main .list-news-articles .list-news-articles-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: inherit;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+main .list-news-articles .list-news-articles-badge {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.85;
+  color: inherit;
+}
+
+main .list-news-articles .list-news-articles-fade {
+  z-index: 1;
+}
+
+main .list-news-articles .list-news-articles-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+main .list-news-articles .list-news-articles-arrow:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+main .list-news-articles .list-news-articles-arrow:focus-visible {
+  outline: 2px solid #109e49;
+  outline-offset: 2px;
+}
+
+main .list-news-articles .list-news-articles-arrow-left {
+  left: 6px;
+}
+
+main .list-news-articles .list-news-articles-arrow-right {
+  right: 6px;
+}
+
+@media (prefers-color-scheme: dark) {
+  main .list-news-articles { background: #111; }
+}
+body.dark main .list-news-articles { background: #111; }
