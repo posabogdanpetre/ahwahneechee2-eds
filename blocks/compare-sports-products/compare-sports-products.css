@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap');
+
+/* Required for correct iframe sizing — AEM section margins inflate shadow body */
+main > div,
+main > .section,
+main > .section:first-of-type {
+  margin: 0;
+}
+main > .section > div {
+  max-width: none;
+  padding: 0;
+}
+body {
+  overflow: auto;
+}
+
+main .compare-sports-products {
+  font-family: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 8px;
+  max-width: 780px;
+  box-sizing: border-box;
+}
+
+main .compare-sports-products h1,
+main .compare-sports-products h2,
+main .compare-sports-products h3,
+main .compare-sports-products [class*='name'] {
+  font-family: 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+main .compare-sports-products .compare-sports-products-card {
+  --label-col: 96px;
+  --label-gap: 2px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Header panels */
+main .compare-sports-products .csp-panels {
+  display: flex;
+  gap: 2px;
+}
+
+main .compare-sports-products .csp-panel {
+  flex: 1 1 260px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-bg, #1a1a1a);
+  color: var(--panel-fg, #fff);
+}
+
+main .compare-sports-products .csp-panel-img {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  background: #222;
+}
+
+main .compare-sports-products .csp-panel-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+main .compare-sports-products .csp-brand-chip {
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #8bc53f;
+  color: #111;
+}
+
+main .compare-sports-products .csp-name {
+  margin: 0 !important;
+  font-size: 18px !important;
+  font-weight: 700;
+  line-height: 1.25 !important;
+}
+
+main .compare-sports-products .csp-desc {
+  margin: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+  opacity: 0.78;
+}
+
+/* Attribute table */
+main .compare-sports-products .csp-table {
+  background: var(--panel-bg, #1a1a1a);
+  color: var(--panel-fg, #fff);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+main .compare-sports-products .csp-row,
+main .compare-sports-products .csp-cta-row {
+  display: flex;
+  align-items: stretch;
+}
+
+main .compare-sports-products .csp-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+main .compare-sports-products .csp-row-alt {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+main .compare-sports-products .csp-label {
+  flex: 0 0 var(--label-col);
+  padding: 10px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  opacity: 0.6;
+  box-sizing: border-box;
+}
+
+main .compare-sports-products .csp-cell {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+  white-space: normal;
+  border-left: 2px solid transparent;
+  box-sizing: border-box;
+}
+
+main .compare-sports-products .csp-row-lead .csp-cell {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+main .compare-sports-products .csp-cell-diff {
+  font-weight: 700;
+  border-left-color: #8bc53f;
+}
+
+/* CTA row */
+main .compare-sports-products .csp-cta-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 12px 0;
+}
+
+main .compare-sports-products .csp-cta-cell {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0 12px;
+  border-left: 2px solid transparent;
+  box-sizing: border-box;
+}
+
+main .compare-sports-products .csp-cta {
+  width: 100%;
+  background: #111111;
+  color: #fff;
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+main .compare-sports-products .csp-cta:hover,
+main .compare-sports-products .csp-cta:focus-visible {
+  opacity: 0.88;
+  outline: 2px solid #8bc53f;
+  outline-offset: 2px;
+}
+
+/* Dark mode — palette panels stay; only lighten CTA text contrast */
+@media (prefers-color-scheme: dark) {
+  main .compare-sports-products { background: #111; }
+  main .compare-sports-products .csp-cta { background: #8bc53f; color: #111; }
+}
+body.dark main .compare-sports-products { background: #111; }
+body.dark main .compare-sports-products .csp-cta { background: #8bc53f; color: #111; }
