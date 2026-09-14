@@ -1,0 +1,535 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap');
+
+/* Required for correct iframe sizing — AEM section margins inflate shadow body */
+main > div,
+main > .section,
+main > .section:first-of-type {
+  margin: 0;
+}
+main > .section > div {
+  max-width: none;
+  padding: 0;
+}
+body {
+  overflow: auto;
+}
+
+main .find-sportguru-locations {
+  font-family: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 8px;
+  max-width: 780px;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+main .find-sportguru-locations h1,
+main .find-sportguru-locations h2,
+main .find-sportguru-locations h3,
+main .find-sportguru-locations [class*="title"],
+main .find-sportguru-locations [class*="name"] {
+  font-family: 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ---------- no-results fallback ----------
+   Reached ONLY when a host run returns zero stores — never the opening view. */
+
+main .find-sportguru-locations-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+main .find-sportguru-locations-form-card {
+  max-width: 400px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+main .find-sportguru-locations-pin {
+  font-size: 28px;
+  opacity: 0.7;
+  color: #111111;
+  margin-bottom: 8px;
+  display: block;
+}
+
+main .find-sportguru-locations-heading {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111111;
+  margin: 0 0 4px 0;
+}
+
+main .find-sportguru-locations-hint {
+  font-size: 13px;
+  color: #111111;
+  opacity: 0.7;
+  margin: 0 0 12px 0;
+}
+
+main .find-sportguru-locations-input {
+  width: 100%;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 1px solid #d5d5d5;
+  box-sizing: border-box;
+  outline: none;
+  color: #333;
+}
+
+main .find-sportguru-locations-search-btn {
+  background: #8bc53f;
+  color: #143100;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  transition: background-color 0.15s ease;
+}
+
+main .find-sportguru-locations-search-btn:hover,
+main .find-sportguru-locations-search-btn:focus-visible {
+  background: #9ed155;
+}
+
+/* ---------- results: compact side map + synchronized card row ---------- */
+
+main .find-sportguru-locations-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 12px;
+  padding: 4px;
+}
+
+main .find-sportguru-locations-map {
+  flex: 0 0 232px;
+  min-width: 0;
+  min-height: 240px;
+  border-radius: 12px;
+}
+
+main .find-sportguru-locations-side {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+main .find-sportguru-locations-row-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+main .find-sportguru-locations-row {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 12px;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+
+main .find-sportguru-locations-row::-webkit-scrollbar {
+  display: none;
+}
+
+main .find-sportguru-locations-fade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 48px;
+  height: 100%;
+  pointer-events: none;
+}
+
+main .find-sportguru-locations-store-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px;
+  color: #111111;
+  flex: 1 1 240px;
+  min-width: 240px;
+  max-width: 280px;
+  box-sizing: border-box;
+  scroll-snap-align: start;
+  cursor: pointer;
+  border-top: 2px solid transparent;
+  transition: border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+main .find-sportguru-locations-store-card.is-selected {
+  border-top-color: #8bc53f;
+}
+
+main .find-sportguru-locations-store-card:focus-visible {
+  outline: 3px solid #8bc53f;
+  outline-offset: -3px;
+}
+
+main .find-sportguru-locations-store-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+main .find-sportguru-locations-store-pin {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  background: #8bc53f;
+  color: #143100;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+main .find-sportguru-locations-store-name {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+main .find-sportguru-locations-store-addr {
+  font-size: 12px;
+  opacity: 0.78;
+}
+
+main .find-sportguru-locations-store-dist {
+  font-size: 11px;
+  font-weight: 600;
+  color: #4a7213;
+}
+
+main .find-sportguru-locations-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+main .find-sportguru-locations-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(139,197,63,0.20);
+  color: #3d5f10;
+  white-space: nowrap;
+}
+
+main .find-sportguru-locations-badge.is-muted {
+  background: rgba(17,17,17,0.06);
+  color: #111111;
+  opacity: 0.6;
+}
+
+main .find-sportguru-locations-store-phone {
+  font-size: 12px;
+  font-weight: 600;
+  color: #4a7213;
+}
+
+main .find-sportguru-locations-store-hours {
+  font-size: 11px;
+  opacity: 0.72;
+  line-height: 1.35;
+}
+
+main .find-sportguru-locations-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+main .find-sportguru-locations-cta {
+  flex: 1 1 auto;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #8bc53f;
+  color: #143100;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+  white-space: nowrap;
+}
+
+main .find-sportguru-locations-cta:hover,
+main .find-sportguru-locations-cta:focus-visible {
+  background: #9ed155;
+}
+
+main .find-sportguru-locations-cta.is-secondary {
+  background: rgba(17,17,17,0.07);
+  color: #111111;
+}
+
+main .find-sportguru-locations-cta.is-secondary:hover,
+main .find-sportguru-locations-cta.is-secondary:focus-visible {
+  background: rgba(17,17,17,0.13);
+}
+
+/* ── Map engine ───────────────────────────────────────────────────────────── */
+
+main .find-sportguru-locations-map {
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: #2a2a2a;
+  color: #111111;
+}
+
+main .find-sportguru-locations-map.is-fallback {
+  background: #ffffff;
+  border: 1px solid rgba(255,255,255,0.14);
+}
+
+main .find-sportguru-locations-map-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  opacity: 0.75;
+  z-index: 1;
+}
+
+main .find-sportguru-locations-map-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 50% 42%, #8bc53f42, transparent 62%),
+    linear-gradient(to right, rgba(17,17,17,0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(17,17,17,0.07) 1px, transparent 1px);
+  background-size: 100% 100%, 29px 29px, 29px 29px;
+  pointer-events: none;
+}
+
+main .find-sportguru-locations-map-anchor {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+main .find-sportguru-locations-map-pin {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+  padding: 0;
+  border: 2px solid rgba(255,255,255,0.55);
+  border-radius: 50%;
+  background: #8bc53f;
+  color: #143100;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  z-index: 2;
+}
+
+main .find-sportguru-locations-map-pin:hover {
+  transform: scale(1.12);
+}
+
+main .find-sportguru-locations-map-pin.is-active {
+  border-color: #fff;
+  transform: scale(1.18);
+  z-index: 1000;
+}
+
+main .find-sportguru-locations-map-pin-num {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+main .find-sportguru-locations-map-label {
+  position: relative;
+  display: inline-block;
+  transform: translate(-50%, calc(-100% - 8px));
+  white-space: nowrap;
+  padding: 5px 11px;
+  border: none;
+  border-radius: 999px;
+  background: #fff;
+  color: #1b1b1b;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.45);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, transform 0.12s;
+}
+
+main .find-sportguru-locations-map-label::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  transform: translateX(-50%) rotate(45deg);
+  border-radius: 0 0 2px 0;
+}
+
+main .find-sportguru-locations-map-label:hover {
+  transform: translate(-50%, calc(-100% - 8px)) scale(1.06);
+}
+
+main .find-sportguru-locations-map-label.is-active {
+  background: #8bc53f;
+  color: #111;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+
+main .find-sportguru-locations-map-pin:focus-visible,
+main .find-sportguru-locations-map-label:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ── Inlined critical Leaflet layout CSS ──────────────────────────────────── */
+main .find-sportguru-locations .leaflet-pane,
+main .find-sportguru-locations .leaflet-tile,
+main .find-sportguru-locations .leaflet-marker-icon,
+main .find-sportguru-locations .leaflet-marker-shadow,
+main .find-sportguru-locations .leaflet-tile-container,
+main .find-sportguru-locations .leaflet-pane > svg,
+main .find-sportguru-locations .leaflet-pane > canvas,
+main .find-sportguru-locations .leaflet-zoom-box,
+main .find-sportguru-locations .leaflet-image-layer,
+main .find-sportguru-locations .leaflet-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+main .find-sportguru-locations .leaflet-container {
+  overflow: hidden;
+  font-family: inherit;
+  background: #2a2a2a;
+}
+
+main .find-sportguru-locations .leaflet-tile,
+main .find-sportguru-locations .leaflet-marker-icon,
+main .find-sportguru-locations .leaflet-marker-shadow {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+main .find-sportguru-locations .leaflet-tile { filter: inherit; visibility: hidden; }
+main .find-sportguru-locations .leaflet-tile-loaded { visibility: inherit; }
+main .find-sportguru-locations .leaflet-zoom-animated { transform-origin: 0 0; }
+main .find-sportguru-locations .leaflet-pane { z-index: 400; }
+main .find-sportguru-locations .leaflet-tile-pane { z-index: 200; }
+main .find-sportguru-locations .leaflet-overlay-pane { z-index: 400; }
+main .find-sportguru-locations .leaflet-shadow-pane { z-index: 500; }
+main .find-sportguru-locations .leaflet-marker-pane { z-index: 600; }
+main .find-sportguru-locations .leaflet-tooltip-pane { z-index: 650; }
+main .find-sportguru-locations .leaflet-popup-pane { z-index: 700; }
+main .find-sportguru-locations .leaflet-control { z-index: 800; position: relative; float: left; clear: both; pointer-events: auto; }
+
+main .find-sportguru-locations .leaflet-top,
+main .find-sportguru-locations .leaflet-bottom {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+main .find-sportguru-locations .leaflet-top { top: 0; }
+main .find-sportguru-locations .leaflet-bottom { bottom: 0; }
+main .find-sportguru-locations .leaflet-left { left: 0; }
+main .find-sportguru-locations .leaflet-right { right: 0; }
+main .find-sportguru-locations .leaflet-right .leaflet-control { float: right; }
+
+main .find-sportguru-locations .leaflet-tile {
+  max-width: none !important;
+  width: 256px !important;
+  height: 256px !important;
+}
+
+main .find-sportguru-locations .leaflet-pane img,
+main .find-sportguru-locations .leaflet-marker-icon,
+main .find-sportguru-locations .leaflet-image-layer,
+main .find-sportguru-locations .leaflet-container img {
+  max-width: none;
+}
+
+main .find-sportguru-locations .leaflet-tile {
+  filter: brightness(0.72) contrast(1.12);
+}
+
+main .find-sportguru-locations .leaflet-bar a {
+  background: #333;
+  color: #f4f4f4;
+  border-bottom-color: rgba(255,255,255,0.14);
+}
+
+main .find-sportguru-locations .leaflet-bar a:hover { background: #444; }
+
+main .find-sportguru-locations .leaflet-control-attribution {
+  background: rgba(20,20,20,0.72) !important;
+  color: #b8c2cc !important;
+  font-size: 8px !important;
+  line-height: 1.35 !important;
+  padding: 0 4px !important;
+}
+
+main .find-sportguru-locations .leaflet-control-attribution a { color: #8fb8ff !important; }
+
+main .find-sportguru-locations-map-marker {
+  background: transparent;
+  border: none;
+}
+
+@media (width <= 560px) {
+  main .find-sportguru-locations-layout {
+    flex-direction: column;
+  }
+
+  main .find-sportguru-locations-map {
+    flex: none;
+    min-height: 140px;
+  }
+}
+
+/* Dark mode — dim the outer widget background, not the palette-colored cards. */
+@media (prefers-color-scheme: dark) {
+  main .find-sportguru-locations { background: #111; }
+}
+body.dark main .find-sportguru-locations { background: #111; }
