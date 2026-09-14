@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap');
+
+/* Required for correct iframe sizing — AEM section margins inflate shadow body */
+main > div,
+main > .section,
+main > .section:first-of-type {
+  margin: 0;
+}
+main > .section > div {
+  max-width: none;
+  padding: 0;
+}
+body {
+  overflow: auto;
+}
+
+main .build-activity-gear-kit {
+  font-family: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 8px;
+  max-width: 780px;
+  box-sizing: border-box;
+}
+
+main .build-activity-gear-kit h1,
+main .build-activity-gear-kit h2,
+main .build-activity-gear-kit h3,
+main .build-activity-gear-kit [class*="name"] {
+  font-family: 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+main .build-activity-gear-kit .kit-wrapper {
+  position: relative;
+}
+
+main .build-activity-gear-kit .kit-track {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0 4px 4px;
+}
+
+main .build-activity-gear-kit .kit-track::-webkit-scrollbar {
+  display: none;
+}
+
+main .build-activity-gear-kit .kit-track {
+  align-items: stretch;
+}
+
+main .build-activity-gear-kit .kit-card {
+  flex: 0 0 220px;
+  width: 220px;
+  min-height: 360px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+main .build-activity-gear-kit .kit-image {
+  position: relative;
+  width: 100%;
+  height: 145px;
+  flex: 0 0 145px;
+  background: #f2f2f2;
+}
+
+main .build-activity-gear-kit .kit-role {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: #111;
+  background: #8bc53f;
+}
+
+main .build-activity-gear-kit .kit-role-useful {
+  background: #1c62b8;
+  color: #fff;
+}
+
+main .build-activity-gear-kit .kit-role-optional {
+  background: #4b5563;
+  color: #fff;
+}
+
+main .build-activity-gear-kit .kit-info {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 8px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+main .build-activity-gear-kit .kit-brand {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+}
+
+main .build-activity-gear-kit .kit-name {
+  margin: 0 !important;
+  font-size: 14px !important;
+  font-weight: 700;
+  line-height: 1.25 !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+main .build-activity-gear-kit .kit-reason {
+  margin: 0 !important;
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+  opacity: 0.78;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+main .build-activity-gear-kit .kit-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+main .build-activity-gear-kit .kit-price {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+main .build-activity-gear-kit .kit-avail {
+  font-size: 10px;
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+main .build-activity-gear-kit .kit-cta {
+  margin-top: 8px;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  width: 100%;
+  background: #8bc53f;
+  color: #111;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  font-family: inherit;
+}
+
+main .build-activity-gear-kit .kit-cta:hover,
+main .build-activity-gear-kit .kit-cta:focus-visible {
+  background: #7ab32f;
+  outline: none;
+}
+
+main .build-activity-gear-kit .kit-cta:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: -2px;
+}
+
+main .build-activity-gear-kit .kit-arrow {
+  position: absolute;
+  top: 62px;
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(17, 17, 17, 0.72);
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  transition: background-color 0.15s ease;
+}
+
+main .build-activity-gear-kit .kit-arrow:hover {
+  background: rgba(17, 17, 17, 0.9);
+}
+
+main .build-activity-gear-kit .kit-arrow:focus-visible {
+  outline: 2px solid #8bc53f;
+  outline-offset: 2px;
+}
+
+main .build-activity-gear-kit .kit-arrow-left {
+  left: 4px;
+}
+
+main .build-activity-gear-kit .kit-arrow-right {
+  right: 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+  main .build-activity-gear-kit {
+    background: #111;
+  }
+}
+body.dark main .build-activity-gear-kit {
+  background: #111;
+}
